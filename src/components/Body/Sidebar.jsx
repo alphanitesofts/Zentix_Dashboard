@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../Sourcefiles/Images/LOGOZ.jpeg";
 import baseUrl from "../Sourcefiles/BaseUrlImages";
 
 const Sidebar = () => {
 
+  const navigate = useNavigate();
   const [roleID, setRoleID] = useState("");
 
   useEffect(() => {
@@ -21,6 +22,21 @@ const Sidebar = () => {
       }
     } catch {
       return null;
+    }
+  };
+
+
+  const logOut = async () => {
+    localStorage.setItem("logIN", JSON.stringify(false));
+    let login = await localStorage.getItem("logIN");
+    let _login = JSON.parse(login);
+    console.log(_login);
+    if (_login === false) {
+      navigate("/");
+
+      setInterval(() => {
+        window.location.reload();
+      }, 1000);
     }
   };
 

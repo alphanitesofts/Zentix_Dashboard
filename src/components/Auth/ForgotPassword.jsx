@@ -1,45 +1,318 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import baseUrl from "../Sourcefiles/BaseUrl";
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
+  const [index, setIndex] = useState(0);
+  const [checkPhone, setCheckPhone] = useState("");
+
+  const [userAnswer, setUserAnswer] = useState("");
+
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [userQuestion, setuserQuestion] = useState("");
+  const [fieldStatus, setFieldStatus] = useState(false);
+
+  // const []
+
+
+  const getQuestion = () => {
+    if (!checkPhone) {
+      setFieldStatus(true);
+      toast.warn("Please enter phone number!");
+    } else {
+      var formdata = new FormData();
+      formdata.append("phone", checkPhone);
+
+      var requestOptions = {
+        method: "POST",
+        body: formdata,
+        redirect: "follow",
+      };
+
+      fetch(`${baseUrl}get_questions`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.status === "200") {
+            setIndex(index + 1);
+            setuserQuestion(result.data[0].question);
+            // alert(result.data[0].question)
+            // toast.info(result.message)
+            // alert(result.message)
+          } else if (result.status === "401") {
+            toast.warn(result.message);
+            // alert(result.message)
+          }
+          console.log(result.status);
+          // alert(result.status)
+        })
+        .catch((error) => {
+          toast.warn("Something went wrong");
+          console.log("error", error);
+        });
+    }
+  };
+
+  const checkQuestion = () => {
+    var formdata = new FormData();
+    formdata.append("phone", checkPhone);
+    formdata.append("question", userQuestion);
+    formdata.append("answer", userAnswer);
+
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch(`${baseUrl}question_check`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status === "200") {
+          // toast.info(result.message)
+          setIndex(index + 1);
+        } else if (result.status === "401") {
+          toast.warn(result.message);
+        }
+        console.log(result);
+      })
+      .catch((error) => {
+        toast.warn("Something went wrong");
+        console.log("error", error);
+      });
+  };
+
+  const updatePassword = () => {
+    var formdata = new FormData();
+    formdata.append("password", "abcd12345");
+    formdata.append("confirm_password", "abcd12345");
+    formdata.append("phone", checkPhone);
+
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch(`${baseUrl}updatepassword`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status === "200") {
+          // toast.info(result.message)
+          setIndex(index + 1);
+        } else if (result.status === "401") {
+          toast.warn(result.message);
+        }
+        console.log(result);
+      })
+      .catch((error) => {
+        toast.warn("Something went wrong");
+        console.log("error", error);
+      });
+  };
+
   return (
-    <div className='hold-transition login-page'>
+    <div className="hold-transition login-page">
       <div className="login-box">
         <div className="login-logo">
-          <a href="../../index2.html"><b>Admin</b>LTE</a>
+          <a>
+            <b>Zentix</b>
+          </a>
         </div>
-        {/* /.login-logo */}
         <div className="card">
           <div className="card-body login-card-body">
-            <p className="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
-            <form action="recover-password.html" method="post">
-              <div className="input-group mb-3">
-                <input type="email" className="form-control" placeholder="Email" />
-                <div className="input-group-append">
-                  <div className="input-group-text">
-                    <span className="fas fa-envelope" />
+            <div>
+              {index === 0 ? (
+                <>
+                  <div>
+                    <p className="login-box-msg mt-2">
+                      You forgot your password? Here you can easily retrieve a
+                      new password.
+                    </p>
+                    <div>
+                      <div className="input-group mb-3">
+                        <input
+                          type="phone"
+                          className="form-control"
+                          onChange={(e) => setCheckPhone(e.target.value)}
+                          style={{
+                            borderColor:
+                              checkPhone === "" && fieldStatus === true
+                                ? "red"
+                                : "#ced4da",
+                          }}
+                          placeholder="Enter Your Phone"
+                        />
+                        <div className="input-group-append">
+                          <div className="input-group-text">
+                            <span className="fas fa-phone" />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-12">
+                          <button
+                            className="btn btn-secondary btn-block"
+                            onClick={getQuestion}
+                          >
+                            Request new password
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-12">
-                  <button type="submit" className="btn btn-primary btn-block">Request new password</button>
-                </div>
-                {/* /.col */}
-              </div>
-            </form>
-            <p className="mt-3 mb-1">
-              <Link to="/Login">Login</Link>
-            </p>
-            <p className="mb-0">
-              <Link to="/Register" className="text-center">Register a new membership</Link>
-            </p>
+                </>
+              ) : null}
+
+              {index === 1 ? (
+                <>
+                  <div>
+                    <p className="login-box-msg mt-2">
+                      Please enter the answer of your security question.
+                    </p>
+                    <div>
+                      <fieldset disabled>
+                        <div className="mb-3">
+                          <label
+                            htmlFor="disabledTextInput"
+                            className="form-label"
+                          >
+                            Your Question
+                          </label>
+                          <input
+                            type="text"
+                            id="disabledTextInput"
+                            className="form-control"
+                            placeholder={userQuestion}
+                          />
+                        </div>
+                      </fieldset>
+
+                      <div className="input-group mb-3">
+                        <input
+                          type="phone"
+                          className="form-control"
+                          onChange={(e) => setUserAnswer(e.target.value)}
+                          style={{
+                            borderColor:
+                              checkPhone === "" && fieldStatus === true
+                                ? "red"
+                                : "#ced4da",
+                          }}
+                          placeholder="Enter Your Answer"
+                        />
+                        <div className="input-group-append">
+                          <div className="input-group-text">
+                            <span className="fas fa-clipboard" />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-12">
+                          <button
+                            onClick={checkQuestion}
+                            className="btn btn-secondary btn-block"
+                          >
+                            Summit
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : null}
+
+              {index === 2 ? (
+                <>
+                  <div>
+                    <p className="login-box-msg mt-2">
+                      Please enter your new password.
+                    </p>
+                    <div>
+                      <div>
+                        <div className="">
+                          <label
+                            htmlFor="exampleInputPassword1"
+                            className="form-label mt-0 mb-0"
+                          >
+                            New Password
+                          </label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            style={{
+                              borderColor:
+                                checkPhone === "" && fieldStatus === true
+                                  ? "red"
+                                  : "#ced4da",
+                            }}
+                            id="exampleInputPassword1"
+                          />
+                        </div>
+                        <div className="mb-3 mt-3">
+                          <label
+                            htmlFor="exampleInputPassword1"
+                            className="form-label mt-0 mb-0"
+                          >
+                            Confirm Password
+                          </label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            style={{
+                              borderColor:
+                                checkPhone === "" && fieldStatus === true
+                                  ? "red"
+                                  : "#ced4da",
+                            }}
+                            id="exampleInputPassword1"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="row">
+                        <div className="col-12">
+                          <button
+                            onClick={updatePassword}
+                            className="btn btn-secondary btn-block"
+                          >
+                            Summit
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : null}
+            </div>
+
+            <div className="d-flex mt-3">
+              <p className="mb-0 w-100 me-1">
+                <Link
+                  to="/"
+                  className="text-center btn btn-block btn-outline-info mt-2"
+                >
+                  Login
+                </Link>
+              </p>
+              <p className="mb-1 w-100 ms-auto mt-2 ms-1">
+                <Link
+                  to="/Register"
+                  className="btn btn-block btn-outline-primary"
+                >
+                  Register
+                </Link>
+              </p>
+            </div>
           </div>
-          {/* /.login-card-body */}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ForgotPassword
+export default ForgotPassword;

@@ -17,83 +17,89 @@ const Register = () => {
   const [lastName, setLastname] = useState('')
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')
-  const [roleID, setRoleID] = useState();
 
   const [fieldStatus, setFieldStatus] = useState(false);
-
 
   const [fatherName, setFatherName] = useState('')
   const [cnic, setCnic] = useState('')
   const [dateOfBirth, setDateOfBirth] = useState('')
   const [userUsername, setUserUsername] = useState('')
 
-  const buttoncheck = () => {
-    alert('button is workinfg')
-  }
 
-  const signUp = () => {
+  const checkReferral = () => {
     setFieldStatus(true);
     if (!name && !email && !password && !confirmPassword && !phone) {
-      toast.info("Fields are empty");
-    } 
-    else  {
-      const signUpObj = {
-        email: email,
-        username: userUsername,
-        cnic: cnic,
-        phone: phone,
-        password: password,
-        password_confirmation: confirmPassword,
-        code: name,
-        role_id: "5",
-        firstname: firstName,
-        lastname: lastName,
-        question: question,
-        answer: answer,
-        fathername: fatherName,
-        dob: dateOfBirth,
-        role_id: "5"
-      };
-      axios
-        .post(`${baseUrl}register`, signUpObj)
-        .then((res) => {
-          console.log(res);
-          toast.info("Successfully Added Member");
-          setInterval(() => {
-            window.location.reload(true);
-          }, 1000);
-        })
-        .catch((error) => {
-          console.log(error);
-          toast.warn('Error While Submitting your request')
-        });
+      toast.warn("Fields are empty");
     }
+    else {
+
+      var formdata = new FormData();
+      formdata.append("referal_code", "EEGH5F");
+
+      var requestOptions = {
+        method: 'POST',
+        body: formdata,
+        redirect: 'follow'
+      };
+
+      fetch(`${baseUrl}checkcode`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          setFieldStatus(false);
+          if (result.status === "200") {
+            signUp()
+          }
+          else if (result.status === "400") {
+            {
+              toast.warn(result.message)
+            }
+          }
+          console.log(result)
+        })
+        .catch(error => {
+          console.log('error', error)
+          toast.warn('Something went wrong...')
+        });
+
+
+    }
+  }
+
+
+  const signUp = () => {
+
+    const signUpObj = {
+      email: email,
+      username: userUsername,
+      cnic: cnic,
+      phone: phone,
+      password: password,
+      password_confirmation: confirmPassword,
+      code: name,
+      role_id: "5",
+      firstname: firstName,
+      lastname: lastName,
+      question: question,
+      answer: answer,
+      fathername: fatherName,
+      dob: dateOfBirth,
+      role_id: "5"
+    };
+    axios
+      .post(`${baseUrl}register`, signUpObj)
+      .then((res) => {
+        console.log(res);
+        toast.info("Successfully Added Member");
+        setInterval(() => {
+          window.location.reload(true);
+        }, 1000);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.warn('Error While Submitting your request')
+      });
   };
 
-  // const checkRegister = () => {
-  //   setFieldStatus(true);
-  //   var formdata = new FormData();
-  //   formdata.append("username", name);
-  //   formdata.append("email", email);
-  //   formdata.append("password", password);
-  //   formdata.append("password_confirmation", confirmPassword);
-  //   formdata.append("phone", phone);
-  //   formdata.append("role_id", roleID);
-
-  //   axios
-  //     .post(`${baseUrl}register`, formdata)
-  //     .then((res) => {
-  //       setFieldStatus(false);
-  //       toast.info("Registered");
-  //       setInterval(() => {
-  //         window.location.reload(true);
-  //       }, 2000);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       toast.warning("Error while submitting details");
-  //     });
-  // };
 
   return (
     <div className="hold-transition register-page" >
@@ -116,8 +122,7 @@ const Register = () => {
                     className="form-control formStyle d-flex"
                     style={{
                       borderColor:
-                        name === "" && fieldStatus === true ? "red" : "#ced4da",
-
+                        firstName === "" && fieldStatus === true ? "red" : "#ced4da",
                     }}
                   >
                     <input
@@ -129,11 +134,11 @@ const Register = () => {
                     <span className="fas fa-user-plus" />
                   </div>
                   <p>
-                    {name === "" && fieldStatus === true ? (
+                    {/* {name === "" && fieldStatus === true ? (
                       <span className="text-danger">Input field is empty</span>
                     ) : (
                       null
-                    )}
+                    )} */}
                   </p>
                 </div>
                 <div className="col-lg-6">
@@ -141,7 +146,7 @@ const Register = () => {
                     className="form-control formStyle d-flex"
                     style={{
                       borderColor:
-                        name === "" && fieldStatus === true ? "red" : "#ced4da",
+                        lastName === "" && fieldStatus === true ? "red" : "#ced4da",
 
                     }}
                   >
@@ -154,11 +159,11 @@ const Register = () => {
                     <span className="fas fa-user-plus" />
                   </div>
                   <p>
-                    {name === "" && fieldStatus === true ? (
+                    {/* {name === "" && fieldStatus === true ? (
                       <span className="text-danger">Input field is empty</span>
                     ) : (
                       null
-                    )}
+                    )} */}
                   </p>
                 </div>
                 <div className="col-lg-12">
@@ -166,7 +171,7 @@ const Register = () => {
                     className=" form-control formStyle d-flex"
                     style={{
                       borderColor:
-                        email === "" && fieldStatus === true ? "red" : "#ced4da",
+                        name === "" && fieldStatus === true ? "red" : "#ced4da",
                     }}
                   >
                     <input
@@ -178,11 +183,11 @@ const Register = () => {
                     <span className="fas fa-signature" />
                   </div>
                   <p>
-                    {email === "" && fieldStatus === true ? (
+                    {/* {email === "" && fieldStatus === true ? (
                       <span className="text-danger">Input field is empty</span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </p>
                 </div>
               </div>
@@ -193,7 +198,7 @@ const Register = () => {
                     className="form-control formStyle d-flex"
                     style={{
                       borderColor:
-                        name === "" && fieldStatus === true ? "red" : "#ced4da",
+                        fatherName === "" && fieldStatus === true ? "red" : "#ced4da",
                     }}
                   >
                     <input
@@ -205,11 +210,11 @@ const Register = () => {
                     <span className="fas fa-signature" />
                   </div>
                   <p>
-                    {name === "" && fieldStatus === true ? (
+                    {/* {name === "" && fieldStatus === true ? (
                       <span className="text-danger">Input field is empty</span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </p>
                 </div>
                 <div className="col-lg-6">
@@ -217,7 +222,7 @@ const Register = () => {
                     className=" form-control formStyle d-flex"
                     style={{
                       borderColor:
-                        email === "" && fieldStatus === true ? "red" : "#ced4da",
+                        cnic === "" && fieldStatus === true ? "red" : "#ced4da",
                     }}
                   >
                     <input
@@ -229,11 +234,11 @@ const Register = () => {
                     <span className="fas fa-address-card" />
                   </div>
                   <p>
-                    {email === "" && fieldStatus === true ? (
+                    {/* {email === "" && fieldStatus === true ? (
                       <span className="text-danger">Input field is empty</span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </p>
                 </div>
               </div>
@@ -244,7 +249,7 @@ const Register = () => {
                     className="form-control formStyle d-flex"
                     style={{
                       borderColor:
-                        name === "" && fieldStatus === true ? "red" : "#ced4da",
+                        dateOfBirth === "" && fieldStatus === true ? "red" : "#ced4da",
 
                     }}
                   >
@@ -257,11 +262,11 @@ const Register = () => {
                     <span className="fas fa-calendar-day" />
                   </div>
                   <p>
-                    {name === "" && fieldStatus === true ? (
+                    {/* {name === "" && fieldStatus === true ? (
                       <span className="text-danger">Input field is empty</span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </p>
                 </div>
                 <div className="col-lg-6">
@@ -269,7 +274,7 @@ const Register = () => {
                     className="form-control formStyle d-flex"
                     style={{
                       borderColor:
-                        confirmPassword === "" && fieldStatus === true
+                        phone === "" && fieldStatus === true
                           ? "red"
                           : "#ced4da",
                     }}
@@ -283,11 +288,11 @@ const Register = () => {
                     <span className="fas fa-phone" />
                   </div>
                   <p>
-                    {confirmPassword === "" && fieldStatus === true ? (
+                    {/* {confirmPassword === "" && fieldStatus === true ? (
                       <span className="text-danger">Input field is empty</span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </p>
                 </div>
               </div>
@@ -298,8 +303,7 @@ const Register = () => {
                     className="form-control formStyle d-flex"
                     style={{
                       borderColor:
-                        name === "" && fieldStatus === true ? "red" : "#ced4da",
-
+                        email === "" && fieldStatus === true ? "red" : "#ced4da",
                     }}
                   >
                     <input
@@ -311,11 +315,11 @@ const Register = () => {
                     <span className="fas fa-envelope" />
                   </div>
                   <p>
-                    {name === "" && fieldStatus === true ? (
+                    {/* {name === "" && fieldStatus === true ? (
                       <span className="text-danger">Input field is empty</span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </p>
                 </div>
                 <div className="col-lg-6">
@@ -323,7 +327,7 @@ const Register = () => {
                     className="form-control formStyle d-flex"
                     style={{
                       borderColor:
-                        confirmPassword === "" && fieldStatus === true
+                        userUsername === "" && fieldStatus === true
                           ? "red"
                           : "#ced4da",
                     }}
@@ -337,11 +341,11 @@ const Register = () => {
                     <span className="fas fa-user-check" />
                   </div>
                   <p>
-                    {confirmPassword === "" && fieldStatus === true ? (
+                    {/* {confirmPassword === "" && fieldStatus === true ? (
                       <span className="text-danger">Input field is empty</span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </p>
                 </div>
               </div>
@@ -365,11 +369,11 @@ const Register = () => {
                     <span className="fas fa-lock" />
                   </div>
                   <p>
-                    {password === "" && fieldStatus === true ? (
+                    {/* {password === "" && fieldStatus === true ? (
                       <span className="text-danger">Input field is empty</span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </p>
                 </div>
                 <div className="col-lg-6">
@@ -391,11 +395,11 @@ const Register = () => {
                     <span className="fas fa-lock" />
                   </div>
                   <p>
-                    {confirmPassword === "" && fieldStatus === true ? (
+                    {/* {confirmPassword === "" && fieldStatus === true ? (
                       <span className="text-danger">Input field is empty</span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </p>
                 </div>
               </div>
@@ -429,7 +433,7 @@ const Register = () => {
                 className="form-control formStyle d-flex"
                 style={{
                   borderColor:
-                    phone === "" && fieldStatus === true ? "red" : "#ced4da",
+                    answer === "" && fieldStatus === true ? "red" : "#ced4da",
                 }}
               >
                 <input
@@ -441,17 +445,17 @@ const Register = () => {
                 <span className="fa-regular fa-clipboard" />
               </div>
               <p>
-                {phone === "" && fieldStatus === true ? (
+                {/* {phone === "" && fieldStatus === true ? (
                   <span className="text-danger">Input field is empty</span>
                 ) : (
                   ""
-                )}
+                )} */}
               </p>
 
               <div className="row mt-1">
                 <div className="col-4 ms-auto">
                   <button
-                    className="btn btn-outline-secondary btn-block" onClick={signUp} >
+                    className="btn btn-outline-secondary btn-block" onClick={checkReferral} >
                     Register
                   </button>
                 </div>

@@ -74,13 +74,13 @@ const Login = () => {
                   className="placeHolderStyle"
                   name="Username"
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Username"
+                  placeholder="Phone Number"
                 />
                 <span className="fas fa-phone" />
               </div>
               <p className="">
                 {email === "" && fieldStatus === true ? (
-                  <span className="text-danger">Input field is empty</span>
+                  <span className="text-danger">Enter Phone Number</span>
                 ) : (
                   ""
                 )}
@@ -103,7 +103,7 @@ const Login = () => {
               </div>
               <p>
                 {password === "" && fieldStatus === true ? (
-                  <span className="text-danger">Input field is empty</span>
+                  <span className="text-danger">Enter Your Password</span>
                 ) : (
                   ""
                 )}
