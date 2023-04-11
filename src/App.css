@@ -1,38 +1,464 @@
-.App {
+@import url(./components/Sourcefiles/adminlte.min.css);
+
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i");
+
+html,
+body {
+  font-family: "Raleway", sans-serif;
+  overflow-y: hidden;
+}
+
+/* .sidebar-dark-danger {
+	background-image: url(./components/Sourcefiles/Images/2.jpg) !important;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+} */
+
+.crousel-support {
+  height: 300px;
+  border-radius: 20px;
+  margin: 10px;
+}
+
+@media screen and (max-width: 780px) {
+  .crousel-support {
+    display: none;
+  }
+}
+
+/*****************************
+*	horizontal news ticker
+******************************/
+
+.ticker-wrapper-h {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.news-ticker-h {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  padding-left: 90%;
+  z-index: 999;
+
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: tic-h;
+  animation-duration: 30s;
+}
+
+.news-ticker-h:hover {
+  animation-play-state: paused;
+}
+
+.news-ticker-h li {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  white-space: nowrap;
+  padding-left: 20px;
+}
+
+.news-ticker-h li a {
+  color: #212529;
+  font-weight: bold;
+}
+
+@keyframes tic-h {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+  }
+
+  100% {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+.icon-profiles {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.card-icon {
+  font-size: 72px;
+  color: rgba(255, 255, 255, 0.15);
+  margin-left: -15px;
+  margin-bottom: -4px;
+}
+
+.form-input {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 25px;
+  color: #000;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.formStyle {
+  flex-direction: "row";
+  display: "flex";
+  align-items: "center";
+}
+
+.placeHolderStyle {
+  flex: 1;
+  border: 0;
+  outline: none;
+}
+
+/* buy products */
+
+.containerx {
+  position: relative;
+}
+
+.containerx .cardx {
+  position: relative;
+  width: 320px;
+  height: 450px;
+  background: #232323;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.containerx .cardx:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: circle(150px at 80% 20%);
+  transition: 0.5s ease-in-out;
+}
+
+.containerx .bg-oval1:before {
+  background: #2a525d;
+}
+
+.containerx .bg-oval2:before {
+  background: #661619;
+}
+
+.containerx .bg-oval3:before {
+  background: #28a745;
+}
+
+.containerx .cardx:hover:before {
+  clip-path: circle(300px at 80% -20%);
+}
+
+.containerx .cardx:after {
+  content: "Zentix";
+  position: absolute;
+  top: 30%;
+  left: -20%;
+  font-size: 12em;
+  font-weight: 800;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.04);
+}
+
+.containerx .cardx .imgBx {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  transition: 0.5s;
+}
+
+.containerx .cardx:hover .imgBx {
+  top: 0%;
+  transform: translateY(-10%);
+  /* bug  */
+}
+
+.containerx .cardx .imgBx img {
+  position: absolute;
+  /* top: 50%; */
+  left: 50%;
+  margin-top: 180px;
+  transform: translate(-50%, -50%);
+  width: 270px;
+}
+
+.containerx .cardx .contentBx {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 150px;
+  text-align: center;
+  transition: 1s;
+  z-index: 90;
+}
+
+.containerx .cardx:hover .contentBx {
+  height: 210px;
+}
+
+.containerx .cardx .contentBx h2 {
+  position: relative;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.containerx .cardx .contentBx .size h3,
+.containerx .cardx .contentBx .color h3 {
+  color: white;
+  font-weight: 300;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-right: 10px;
+}
+
+.containerx .cardx .contentBx .done {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #fff;
+  border-radius: 4px;
+  margin-top: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #111 !important;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: 0.4s;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.containerx .cardx:hover .contentBx .done {
+  opacity: 1;
+  transform: translateY(0px);
+  transition-delay: 0.3s;
+  z-index: 10;
+  cursor: pointer;
+}
+
+/* order product */
+
+#progressbar-1 {
+  color: #455a64;
+}
+
+#progressbar-1 li {
+  list-style-type: none;
+  font-size: 13px;
+  width: 33.33%;
+  float: left;
+  position: relative;
+}
+
+#progressbar-1 #step1:before {
+  content: "1";
+  color: #fff;
+  width: 29px;
+  margin-left: 22px;
+  padding-left: 11px;
+}
+
+#progressbar-1 #step2:before {
+  content: "2";
+  color: #fff;
+  width: 29px;
+}
+
+#progressbar-1 #step3:before {
+  content: "3";
+  color: #fff;
+  width: 29px;
+  margin-right: 22px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#progressbar-1 li:before {
+  line-height: 29px;
+  display: block;
+  font-size: 12px;
+  background: #455a64;
+  border-radius: 50%;
+  margin: auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+#progressbar-1 li:after {
+  content: "";
+  width: 121%;
+  height: 2px;
+  background: #455a64;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 15px;
+  z-index: -1;
+}
+
+#progressbar-1 li:nth-child(2):after {
+  left: 50%;
+}
+
+#progressbar-1 li:nth-child(1):after {
+  left: 25%;
+  width: 121%;
+}
+
+#progressbar-1 li:nth-child(3):after {
+  left: 25%;
+  width: 50%;
+}
+
+#progressbar-1 li.active:before,
+#progressbar-1 li.active:after {
+  background: #17a2b8;
+}
+
+.card-stepper {
+  z-index: 0;
+}
+
+/* loader */
+
+.loader {
+  position: absolute;
+  /* top: 50%; */
+  margin-top: 300px;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  margin-left: 100px;
+}
+
+@media only screen and (max-width: 800px) {
+  .loader {
+    position: absolute;
+    margin-left: 0px;
+    /* top: 50%; */
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* styling of card */
+
+.card-styles {
+  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
+  transition: all 0.3s ease-in-out;
+
+  word-wrap: break-word;
+  background-clip: border-box;
+  border-radius: 0.428rem;
 }
 
-.App-link {
-  color: #61dafb;
+.scroll-view-two {
+  overflow-y: scroll;
+  height: 90vh;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.scrollbar-secondary-two::-webkit-scrollbar-track {
+  box-shadow: transparent;
+  border: none;
+}
+
+.scrollbar-secondary-two::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollbar-secondary-two::-webkit-scrollbar-thumb {
+  border: none;
+  box-shadow: transparent;
+  background-color: #d0d2d6;
+}
+
+/* Live-Chat Screen Start */
+
+.notif {
+  position: relative;
+  padding: 25px 30px 25px 100px;
+  min-height: 50px;
+  line-height: 22px;
+  background: #f4f4f4;
+}
+
+.notif:before {
+  content: "";
+  position: absolute;
+  top: 40px;
+  left: 30px;
+  width: 40px;
+  height: 40px;
+  border: 5px solid;
+  border-radius: 25px;
+}
+
+.notif p {
+  font-size: 12px;
+  color: #666666;
+}
+
+.notif-title {
+  margin: 0 0 5px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #444444;
+}
+
+.notif-notice:before {
+  background: #1e9ff2;
+  border-color: #00bcd4;
+}
+
+/* buy packages */
+
+.plan-card .plan-icon {
+  display: inline-block;
+  font-size: 35px;
+  width: 100px;
+  height: 100px;
+  color: #ffffff;
+  line-height: 76px;
+  overflow: hidden;
+  border: 12px solid #ffffff;
+  border-radius: 50%;
+  background: #67a8e4;
+  box-shadow: 0 0 3px #cccccc;
+  transition: all 0.3s;
+}
+
+.btn-pink {
+  background-color: #f06292;
+  border: 1px solid #f06292;
+  color: #ffffff;
 }
