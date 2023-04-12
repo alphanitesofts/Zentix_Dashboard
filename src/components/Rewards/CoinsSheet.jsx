@@ -31,7 +31,6 @@ const CoinsSheet = () => {
     }
   };
 
-
   const getUserCoins = (id) => {
     setLoader(true)
     var formdata = new FormData();
@@ -198,7 +197,7 @@ const CoinsSheet = () => {
                                 <th>Coins</th>
                                 <th>Referred By</th>
                                 <th>Transaction Type</th>
-                                <th>date</th>
+                                <th>Date</th>
                               </tr>
                             </thead>
                             <tbody>

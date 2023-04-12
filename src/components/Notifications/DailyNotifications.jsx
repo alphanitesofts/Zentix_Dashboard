@@ -73,24 +73,36 @@ const DailyNotifications = () => {
                         </div>
                     </>
                     :
+                    notifications.length >= 1 ?
+                        notifications.map((items) => {
+                            return (
+                                <>
+                                    <div className="card card-styles ms-3">
+                                        <section className="notif notif-notice">
+                                            <div className='d-flex'>
+                                                <i className='fa-solid fa-bell' />&nbsp;&nbsp;
+                                                <h6 className="notif-title">{items.title}</h6>
+                                            </div>
+                                            <p className='mt-0 mb-2'>{items.body}</p>
+                                            <p className='mt-0 mb-0'>{items.Idate}</p>
+                                        </section>
+                                    </div>
+                                </>
+                            )
+                        })
+                        :
+                        <>
+                            <div className="card card-styles ms-3">
+                                <section className="notif notif-notice">
+                                    <div className='d-flex'>
+                                        <i className='fa-solid fa-bell' />&nbsp;&nbsp;
+                                        <h6 className="notif-title">No Notifications yet!</h6>
+                                    </div>
+                                    <p className='mt-0 mb-2'>You will start recieving notifications here</p>
+                                </section>
+                            </div>
+                        </>
 
-                    notifications.length >= 1 &&
-                    notifications.map((items) => {
-                        return (
-                            <>
-                                <div className="card card-styles ms-3">
-                                    <section className="notif notif-notice">
-                                        <div className='d-flex'>
-                                            <i className='fa-solid fa-bell' />&nbsp;&nbsp;
-                                            <h6 className="notif-title">{items.title}</h6>
-                                        </div>
-                                        <p className='mt-0 mb-2'>{items.body}</p>
-                                        <p className='mt-0 mb-0'>{items.Idate}</p>
-                                    </section>
-                                </div>
-                            </>
-                        )
-                    })
                 }
 
 

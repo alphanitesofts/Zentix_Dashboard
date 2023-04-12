@@ -24,6 +24,10 @@ const ViewProfile = () => {
       let parsed_user = JSON.parse(user);
       if (parsed_user) {
         setRoleID(parsed_user);
+        setProfile(parsed_user.pro_pic)
+        setEmail(parsed_user.email)
+        setFirstName(parsed_user.firstname)
+        setLastName(parsed_user.lastname)
       }
     } catch {
       return null;
@@ -49,8 +53,14 @@ const ViewProfile = () => {
       .then(response => response.json())
       .then(result => {
         setButtonLoader(false)
-        console.log(result.data.message)
-        toast.info(result.message)
+        console.log(result)
+        if (result.status === "200") {
+          toast.info('Profile Updated')
+          localStorage.setItem("user", JSON.stringify(result.user));
+        }
+        else if (result.status === "401") {
+          toast.info(result.message)
+        }
       })
       .catch(error => {
         console.log('error', error)

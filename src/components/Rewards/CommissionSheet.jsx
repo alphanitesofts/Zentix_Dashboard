@@ -132,7 +132,7 @@ const CommissionSheet = () => {
                   <div className="card-header d-flex">
                     <div>
                       <h3 className="card-title">
-                        <b>My Coins Sheet</b>
+                        <b>My Commission Sheet</b>
                       </h3>
                     </div>
 
@@ -197,7 +197,7 @@ const CommissionSheet = () => {
                                 <th>Coins</th>
                                 <th>Referred By</th>
                                 <th>Transaction Type</th>
-                                <th>date</th>
+                                <th>Date</th>
                               </tr>
                             </thead>
                             <tbody>
