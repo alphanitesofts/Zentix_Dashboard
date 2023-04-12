@@ -1,14 +1,129 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import baseUrl from "../Sourcefiles/BaseUrl";
 
 const CoinsSheet = () => {
-  const [text, setText] = useState("");
-  const [orderID, setOrderID] = useState("");
-  const [orderDate, setOrderdate] = useState("");
-  const [phone, setPhoneNo] = useState("");
+
+  const [userData, setUserData] = useState([])
+  const [showCoins, setShowCoins] = useState('')
+
+  const [userID, setuserID] = useState("");
+  const [userDate, setuserDate] = useState("");
+  const [userName, setuserName] = useState("");
+
+  const [loader, setLoader] = useState(false)
+
+
+  useEffect(() => {
+    SetLocalLogin()
+  }, [])
+
+  async function SetLocalLogin() {
+
+    try {
+      let user = await localStorage.getItem("user");
+      let parsed_user = JSON.parse(user);
+      if (parsed_user) {
+        getUserCoins(parsed_user.id);
+      }
+    } catch {
+      return null;
+    }
+  };
+
+
+  const getUserCoins = (id) => {
+    setLoader(true)
+    var formdata = new FormData();
+    formdata.append("user_id", id);
+
+    var requestOptions = {
+      method: 'POST',
+      body: formdata,
+      redirect: 'follow'
+    };
+
+    fetch(`${baseUrl}get_coins`, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        setLoader(false)
+        setUserData(result.coins_list)
+        setShowCoins(result.my_coins)
+        console.log(result)
+      })
+      .catch(error => {
+        console.log('error', error)
+      });
+
+  }
+
+  const loadingSection = () => {
+    if (userData.length < 1) {
+      return <h4 className='text-center'>No Data Available</h4>
+    }
+    else {
+      return <DataRender />
+    }
+  }
+
+  const filteredData = userID && !userName && !userDate ?
+    userData.filter((objects) => objects.user_id === (userID)) :
+    userName && !userID && !userDate ?
+      userData.filter((objects) => objects.account_title === userName) :
+      userDate && !userID && !userName ?
+        userData.filter((objects) => objects.ldate === userDate) :
+        userID && userName && !userDate ?
+          userData.filter((objects) => objects.user_id === (userID) && objects.account_title == userName) :
+          userName && userDate && !userID ?
+            userData.filter((objects) => objects.account_title === userName && objects.ldate == userDate) :
+            userID && userName && userDate ?
+              userData.filter((objects) => objects.user_id === (userID) && objects.account_title === userName && objects.ldate === userDate) :
+              userData
+
+
+
+  const DataRender = () => {
+    return (
+      <>
+        {
+          filteredData.map((items) => {
+            return (
+              <Content items={items} />
+            )
+          }
+          )}
+      </>
+    )
+  }
+
+
+  function Content({ items }) {
+    return (
+      <tr>
+        <td>{items.user_id}</td>
+        <td>{items.username}</td>
+        <td>{items.coins}</td>
+        <td>{items.reward_by}</td>
+        <td>{items.transaction_type}</td>
+        <td>{items.created_at}</td>
+      </tr>
+    )
+  }
+
+
   return (
     <div className="scroll-view-two scrollbar-secondary-two">
       <div className="content-wrapper">
-      <h2 className="p-3" style={{color:"#5e5873"}}><b>Coins Sheet</b></h2>
+        <h2 className="p-3" style={{ color: "#5e5873" }}><b >Coins Sheet</b></h2>
+
+        <div className="card m-3 bg-body card-styles">
+          <div className="card-body d-flex">
+            <h4 className="mt-2">My Coins</h4>
+            <h1 className="ms-auto">
+              <i className="fa-solid fa-dollar" /> <span className="text-danger">{showCoins}</span>
+            </h1>
+          </div>
+        </div>
 
         <section className="content">
           <div className="container-fluid">
@@ -22,38 +137,18 @@ const CoinsSheet = () => {
                       </h3>
                     </div>
 
-                    <div className="ms-auto">
-                      <select
-                        className="form-select"
-                        style={{ borderRadius: "10em" }}
-                        aria-label="Default select example"
-                      >
-                        <option selected>Referral</option>
-                        <option value={1}>1st referral</option>
-                        <option value={2}>2nd referral</option>
-                        <option value={3}>3rd referral</option>
-                      </select>
-                    </div>
+
                   </div>
 
                   <div className="card-body table-responsive">
                     <div className="form-group d-flex">
-                      <select
-                        className="form-select"
-                        style={{ borderRadius: "10em" }}
-                        aria-label="Default select example"
-                      >
-                        <option selected>Status</option>
-                        <option value={1}>Approved</option>
-                        <option value={2}>unapproved</option>
-                      </select>
                       &nbsp;&nbsp;&nbsp;
                       <input
                         className="form-control"
                         type="number"
                         placeholder="Search with order ID"
                         onChange={(e) => {
-                          setOrderID(e.target.value);
+                          setuserID(e.target.value);
                         }}
                         aria-label="Search"
                         style={{ borderRadius: "10em" }}
@@ -62,8 +157,8 @@ const CoinsSheet = () => {
                       <input
                         className="form-control"
                         type="text"
-                        placeholder="Search with Phone"
-                        onChange={(e) => setPhoneNo(e.target.value)}
+                        placeholder="Search with Uername"
+                        onChange={(e) => setuserName(e.target.value)}
                         aria-label="Search"
                         style={{ borderRadius: "10em" }}
                       />
@@ -72,7 +167,7 @@ const CoinsSheet = () => {
                         className="form-control"
                         type="text"
                         placeholder="Enter date in YYYY-MM-DD"
-                        onChange={(e) => setOrderdate(e.target.value)}
+                        onChange={(e) => setuserDate(e.target.value)}
                         aria-label="Search"
                         style={{ borderRadius: "10em" }}
                       />
@@ -81,25 +176,39 @@ const CoinsSheet = () => {
                       id="example2"
                       className="table  table-bordered table-hover  "
                     >
-                      <thead className="table-success">
-                        <tr>
-                          {/* <th>Sr. No.</th>  */}
-                          <th>Username</th>
-                          <th>Name</th>
-                          <th>email</th>
-                          <th>Phone No.</th>
-                          <th>Date</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>h1</td>
-                          <td>faraz</td>
-                          <td>Lahore</td>
-                          <td>4450</td>
-                          <td>23-02-2023</td>
-                        </tr>
-                      </tbody>
+
+                      {
+
+                        loader === true ?
+                          <>
+                            <div className=''>
+                              <div className="loader">
+                                <div className="spinner-border" style={{ height: "5rem", width: "5rem" }} role="status">
+                                  <span className="sr-only">Loading...</span>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                          :
+                          <>
+                            <thead className="table-success mt-2">
+                              <tr>
+                                <th>User ID</th>
+                                <th>Username</th>
+                                <th>Coins</th>
+                                <th>Referred By</th>
+                                <th>Transaction Type</th>
+                                <th>date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {
+                                loadingSection()
+                              }
+                            </tbody>
+                          </>
+                      }
+
                     </table>
                   </div>
                 </div>

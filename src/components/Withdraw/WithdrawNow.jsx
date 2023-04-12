@@ -12,7 +12,7 @@ import bank from '../Sourcefiles/Images/Bank.jpg'
 const WithdrawNow = () => {
 
   return (
-    <div className="content-wrapper">
+    <div className="content-wrapper scroll-view-two scrollbar-secondary-two">
       <h2 className="p-3" style={{ color: "#5e5873" }}><b>Wallet</b></h2>
       <div className="card m-3 shadow-lg bg-body card-styles">
         <div className="card-body">

@@ -355,7 +355,7 @@ const HomePage = () => {
                         </div>
                         <div className="card-footer p-4">
                           <Link
-                            to="/OrderProduct" state={{productID: packageDetails.package_id}}
+                            to="/OrderProduct" state={{ productID: packageDetails.package_id }}
                             className="btn btn-outline-info w-25 float-right"
                           >
                             Order Now

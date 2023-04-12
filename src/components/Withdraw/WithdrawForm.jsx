@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import baseUrl from "../Sourcefiles/BaseUrl";
 import { useLocation } from "react-router-dom";
 import banksInPakistan from "../Sourcefiles/Banks";
+import { useEffect } from "react";
 
 const WithdrawForm = () => {
 
@@ -11,26 +12,45 @@ const WithdrawForm = () => {
   const { accSubType } = location.state;
 
   const [fieldStatus, setFieldStatus] = useState(false);
-
+  const [userId, setuserId] = useState('')
   const [accountTitle, setAccountTitle] = useState('')
   const [accountNumber, setAccountNumber] = useState('')
   const [amount, setAmount] = useState('')
   const [accountSub, setAccountSub] = useState("null")
+  const [buttonLoader, setButtonLoader] = useState(false)
 
+  useEffect(() => {
+    SetLocalLogin()
+  }, [])
+
+  async function SetLocalLogin() {
+
+    try {
+      let user = await localStorage.getItem("user");
+      let parsed_user = JSON.parse(user);
+      if (parsed_user) {
+        setuserId(parsed_user.id);
+      }
+    } catch {
+      return null;
+    }
+  };
 
   const submitData = () => {
+    // && !accountSub || accountSub === "null"
     setFieldStatus(true)
-    if (!accountTitle && !accountNumber && !amount && !accountSub || accountSub === "null") {
+    if (!accountTitle && !accountNumber && !amount) {
       toast.warn('Please fill all fields')
     }
     else {
+      setButtonLoader(true)
       var formdata = new FormData();
       formdata.append("account_title", accountTitle);
       formdata.append("account_type", accType);
       formdata.append("account_number", accountNumber);
       formdata.append("requested_amount", amount);
-      formdata.append("user_id", "1");
-      formdata.append("account_subtype", accountSub);
+      formdata.append("user_id", userId);
+      formdata.append("account_subtype", accSubType ? accSubType : accountSub);
 
       var requestOptions = {
         method: 'POST',
@@ -41,17 +61,21 @@ const WithdrawForm = () => {
       fetch(`${baseUrl}PostWithdrawl`, requestOptions)
         .then(response => response.json())
         .then(result => {
+          setButtonLoader(false)
           console.log(result)
-          toast.info('Request Sent!')
-
-          setInterval(() => {
-            window.location.reload(true)
-          }, 1500);
-
+          if (result.status === "200") {
+            toast.info(result.message)
+            setInterval(() => {
+              window.location.reload(true)
+            }, 1500);
+          }
+          if (result.status === "401") {
+            toast.warn(result.message)
+          }
         })
         .catch(error => {
           console.log('error', error)
-          toast.error('Error While Depositing')
+          toast.error('Error While Withdrawing...')
         })
     }
   }
@@ -155,29 +179,58 @@ const WithdrawForm = () => {
                 </fieldset>
               </div>
             </div>
-            <div className="col-sm-6">
-              <div className="form-group">
-                <label className="col-form-label" htmlFor="inputSuccess">
-                  Account Sub-type
-                </label>
-                <select onChange={(e) => setAccountSub(e.target.value)} className="form-select" style={{
-                  borderColor:
-                    accountSub === "" && fieldStatus === true ? "red" : "#ced4da",
-                }} aria-label="Default select example">
-                  <option>Select Bank</option>
-                  {
-                    banksInPakistan.banks.map((items, i) => {
-                      return (
-                        <>
-                          <option key={i}>{items.name}</option>
-                        </>
-                      )
-                    })
-                  }
-                </select>
 
-              </div>
-            </div>
+
+            {
+              accSubType ?
+                <>
+                  <div className="col-sm-6">
+                    <div className="form-group">
+                      <label className="col-form-label" htmlFor="inputSuccess">
+                        Account Sub-Type
+                      </label>
+                      <fieldset disabled>
+                        <input
+                          value={accSubType}
+                          type="text"
+                          className="form-control "
+                          id="inputSuccess"
+                        />
+                        <span className="icon me-4 mt-2">
+                          <i className="fa-solid fa-building-columns" />
+                        </span>
+                      </fieldset>
+                    </div>
+                  </div>
+
+                </> :
+                <>
+                  <div className="col-sm-6">
+                    <div className="form-group">
+                      <label className="col-form-label" htmlFor="inputSuccess">
+                        Account Sub-type
+                      </label>
+                      <select onChange={(e) => setAccountSub(e.target.value)} className="form-select" style={{
+                        borderColor:
+                          accountSub === "" && fieldStatus === true ? "red" : "#ced4da",
+                      }} aria-label="Default select example">
+                        <option>Select Bank</option>
+                        {
+                          banksInPakistan.banks.map((items, i) => {
+                            return (
+                              <>
+                                <option key={i}>{items.name}</option>
+                              </>
+                            )
+                          })
+                        }
+                      </select>
+                    </div>
+                  </div>
+                </>
+            }
+
+
           </div>
 
           <div className="row">
@@ -204,7 +257,11 @@ const WithdrawForm = () => {
             </div>
 
           </div>
-          <button className="btn btn-success float-end" onClick={submitData}>Summit</button>
+          <button className="btn btn-success float-end" onClick={submitData}>
+            {
+              buttonLoader === true ? 'Loading...' : 'Submit'
+            }
+          </button>
         </div>
       </div>
     </div>

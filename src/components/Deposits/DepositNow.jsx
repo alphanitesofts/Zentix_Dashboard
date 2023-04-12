@@ -8,6 +8,8 @@ import deposit2 from "../Sourcefiles/Images/visa.png";
 import deposit3 from "../Sourcefiles/Images/easypaisa.png";
 import deposit4 from "../Sourcefiles/Images/pkx.png";
 
+import askari from '../Sourcefiles/Images/askari.jpg'
+
 import meezanBank from '../Sourcefiles/Images/mezanlogo.jpg'
 
 const DepositNow = () => {
@@ -38,18 +40,19 @@ const DepositNow = () => {
               <div className="containerx">
 
                 <div className="cardx mt-2 mb-2 bg-oval2">
-                  <Link className="text-dark" state={{ accType: "Bank", accSubType: "Meezan_Bank" }} to="/DepositForm" >
+                  <Link className="text-dark" state={{ accType: "Bank", accSubType: "Askari_Bank" }} to="/DepositForm" >
                     <div className="imgBx">
-                      <img src={meezanBank} style={{ borderRadius: '10px', width: '200px' }} alt="nike-air-shoe" />
+                      <img src={askari} style={{ borderRadius: '10px', height: '150px' }} alt="nike-air-shoe" />
                     </div>
                     <div className="contentBx">
-                      <h2>Meezan Bank</h2>
+                      <h2>Askari Bank</h2>
                       <a className="done">
                         Buy Now
                       </a>
                     </div>
                   </Link>
                 </div>
+
               </div>
             </div>
 

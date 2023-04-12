@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -7,6 +7,7 @@ import baseUrl from "../Sourcefiles/BaseUrl";
 
 toast.configure();
 const Register = () => {
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -34,7 +35,7 @@ const Register = () => {
     else {
 
       var formdata = new FormData();
-      formdata.append("referal_code", "EEGH5F");
+      formdata.append("referal_code", name);
 
       var requestOptions = {
         method: 'POST',
@@ -47,7 +48,8 @@ const Register = () => {
         .then(result => {
           setFieldStatus(false);
           if (result.status === "200") {
-            signUp()
+            // signUp()
+            userSignUp()
           }
           else if (result.status === "400") {
             {
@@ -63,6 +65,62 @@ const Register = () => {
 
 
     }
+  }
+
+
+  const userSignUp = () => {
+
+    setFieldStatus(true);
+    if (!name && !email && !password && !confirmPassword && !phone) {
+      toast.warn("Fields are empty");
+    }
+    else {
+
+      var formdata = new FormData();
+      formdata.append("email", email);
+      formdata.append("username", name);
+      formdata.append("cnic", cnic);
+      formdata.append("phone", phone);
+      formdata.append("password", password);
+      formdata.append("password_confirmation", confirmPassword);
+      formdata.append("code", name);
+      formdata.append("firstname", firstName);
+      formdata.append("lastname", lastName);
+      formdata.append("question", question);
+      formdata.append("answer", answer);
+      formdata.append("role_id", "5");
+      formdata.append("fathername", fatherName);
+      formdata.append("dob", dateOfBirth);
+
+      var requestOptions = {
+        method: 'POST',
+        body: formdata,
+        redirect: 'follow'
+      };
+
+      fetch(`${baseUrl}register`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          console.log(result)
+          if (result.status === "200") {
+            toast.success('Member Registered')
+            navigate('/')
+          }
+          else if (result.status === "401") {
+            toast.warn(result.message)
+            alert(result.message)
+          }
+          // useNavigate(/)
+          // setInterval(() => {
+          //   window.location.reload(true);
+          // }, 1000);
+        })
+        .catch(error => {
+          console.log('error', error)
+          toast.warn('Error While Submitting your request')
+        });
+    }
+
   }
 
 
@@ -89,7 +147,13 @@ const Register = () => {
       .post(`${baseUrl}register`, signUpObj)
       .then((res) => {
         console.log(res);
-        toast.info("Successfully Added Member");
+        if (res.data.status === "200") {
+          toast.success('Member Registered')
+        }
+        else if (res.data.status === "401") {
+          toast.warn(res.data.message)
+          alert(res.data.message)
+        }
         setInterval(() => {
           window.location.reload(true);
         }, 1000);
@@ -102,7 +166,7 @@ const Register = () => {
 
 
   return (
-    <div className="hold-transition register-page" >
+    <div className="hold-transition register-page  scroll-view-two scrollbar-secondary-two" >
       <div className="register-box-register">
         <div className="register-logo">
           <a>

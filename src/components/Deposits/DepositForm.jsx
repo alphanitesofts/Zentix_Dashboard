@@ -19,6 +19,24 @@ const DepositForm = () => {
   const [transactionID, setTransactionID] = useState('')
   const [roleID, setRoleID] = useState("");
 
+  useEffect(() => {
+    SetLocalLogin()
+  }, [])
+
+
+  async function SetLocalLogin() {
+
+    try {
+      let user = await localStorage.getItem("user");
+      let parsed_user = JSON.parse(user);
+      if (parsed_user) {
+        setRoleID(parsed_user);
+      }
+    } catch {
+      return null;
+    }
+  };
+
 
   const submitData = () => {
 
@@ -28,7 +46,7 @@ const DepositForm = () => {
     }
     else {
       var formdata = new FormData();
-      formdata.append("payer_id", roleID ? roleID.id : null);
+      formdata.append("payer_id", roleID ? roleID.id : toast.warn('Please logout and log in'));
       formdata.append("account_type", accType);
       formdata.append("account_title", accountTitle);
       formdata.append("account_no", accountNumber);
@@ -47,7 +65,12 @@ const DepositForm = () => {
         .then(response => response.json())
         .then(result => {
           console.log(result)
-          toast.info('Amount Deposited')
+          if (result.status === "401") {
+            toast.warn(result.message)
+          }
+          else if (result.status === "200") {
+            toast.warn(result.message)
+          }
 
           setInterval(() => {
             window.location.reload(true)
@@ -62,24 +85,6 @@ const DepositForm = () => {
 
   }
 
-  useEffect(() => {
-    SetLocalLogin()
-  }, [])
-
-
-  async function SetLocalLogin() {
-
-    console.log("called function 11")
-    try {
-      let user = await localStorage.getItem("user");
-      let parsed_user = JSON.parse(user);
-      if (parsed_user) {
-        setRoleID(parsed_user);
-      }
-    } catch {
-      return null;
-    }
-  };
 
 
 
@@ -93,11 +98,11 @@ const DepositForm = () => {
           <div className="d-flex">
             <div className="me-auto">
               <h5 style={{ color: "#C70039" }}>Account Name</h5>
-              <p>Faraz Mahmood</p>
+              <p>Muhammad Yaqoob</p>
             </div>
             <div>
               <h5 style={{ color: "#C70039" }}>Account Title</h5>
-              <p>03034450790</p>
+              <p>PK ASCM 003 0203 5000  6073</p>
             </div>
           </div>
         </div>
@@ -174,7 +179,7 @@ const DepositForm = () => {
                 </label>
                 <fieldset disabled>
                   <input
-                   
+
                     value={accType}
                     type="text"
                     className="form-control "

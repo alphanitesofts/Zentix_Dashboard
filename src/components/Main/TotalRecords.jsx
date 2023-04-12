@@ -131,6 +131,23 @@ const TotalRecords = () => {
                                 <div className="col-lg-4">
                                     <div className="card" style={{ backgroundColor: "#7367f0 " }}>
                                         <div className="card-body text-white p-4 shadow rounded">
+                                            <h4 className="text-end">{data.Total_Commission}</h4>
+                                            <p className="text-end">My Commission</p>
+                                            <div className="d-flex justify-content-end">
+                                                <Link to='/WithdrawSheet' className="btn btn-sm btn-light me-1 shadow-lg rounded">
+                                                    View
+                                                </Link>
+                                            </div>
+                                            <div className="icon-profiles">
+                                                <i className="fa-solid fa-sack-dollar card-icon" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="col-lg-4">
+                                    <div className="card" style={{ backgroundColor: "#7367f0 " }}>
+                                        <div className="card-body text-white p-4 shadow rounded">
                                             <h4 className="text-end">{data.Total_withdrawl} pkr</h4>
                                             <p className="text-end">Total Withdrawls</p>
                                             <div className="d-flex justify-content-end">

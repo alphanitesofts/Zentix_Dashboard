@@ -53,60 +53,62 @@ function App() {
 
   return (
     <div className="wrapper">
-      {login === false ? (
-        <Router>
-          <Routes>
-            <Route path="/" exact element={<Login />} />
-            <Route path="/Register" element={<Register />} />
-            <Route path="/RecoverPassword" element={<RecoverPassword />} />
-            <Route path="/ForgotPassword" element={<ForgotPassword />} />
-          </Routes>
-        </Router>
-      ) : (
-        <Router>
-          <Navbar />
-          <Sidebar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
+      <div className="">
+        {login === false ? (
+          <Router>
+            <Routes>
+              <Route path="/" exact element={<Login />} />
+              <Route path="/Register" element={<Register />} />
+              <Route path="/RecoverPassword" element={<RecoverPassword />} />
+              <Route path="/ForgotPassword" element={<ForgotPassword />} />
+            </Routes>
+          </Router>
+        ) : (
+          <Router>
+            <Navbar />
+            <Sidebar />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
 
-            <Route path="/UserProfile" element={<UserProfile />} />
+              <Route path="/UserProfile" element={<UserProfile />} />
 
-            <Route path="/ImportantLinks" element={<ImportantLinks />} />
-            <Route path="/UserReferrals" element={<UserReferrals />} />
-            <Route path="/ViewProfile" element={<ViewProfile />} />
-            <Route path="/BuyPackages" element={<BuyPackages />} />
-            <Route path="/TotalRecords" element={<TotalRecords />} />
+              <Route path="/ImportantLinks" element={<ImportantLinks />} />
+              <Route path="/UserReferrals" element={<UserReferrals />} />
+              <Route path="/ViewProfile" element={<ViewProfile />} />
+              <Route path="/BuyPackages" element={<BuyPackages />} />
+              <Route path="/TotalRecords" element={<TotalRecords />} />
 
-            {/* notifications */}
+              {/* notifications */}
 
-            <Route
-              path="/DailyNotifications"
-              element={<DailyNotifications />}
-            />
+              <Route
+                path="/DailyNotifications"
+                element={<DailyNotifications />}
+              />
 
-            {/* Rewards Sheet */}
-            <Route path="/CommissionSheet" element={<CommissionSheet />} />
-            <Route path="/Bonus-Sheet" element={<BonusSheet />} />
-            <Route path="/CoinSheet" element={<CoinsSheet />} />
+              {/* Rewards Sheet */}
+              <Route path="/CommissionSheet" element={<CommissionSheet />} />
+              <Route path="/Bonus-Sheet" element={<BonusSheet />} />
+              <Route path="/CoinSheet" element={<CoinsSheet />} />
 
-            {/* Deposit Sheet */}
-            <Route path="/DepositNow" element={<DepositNow />} />
-            <Route path="/DepositSheet" element={<DepositSheet />} />
-            <Route path="/DepositForm" element={<DepositForm />} />
+              {/* Deposit Sheet */}
+              <Route path="/DepositNow" element={<DepositNow />} />
+              <Route path="/DepositSheet" element={<DepositSheet />} />
+              <Route path="/DepositForm" element={<DepositForm />} />
 
-            {/* Withdraw Sheet */}
-            <Route path="/WithdrawNow" element={<WithdrawNow />} />
-            <Route path="/WithdrawSheet" element={<WithdrawSheet />} />
-            <Route path="/WithdrawForm" element={<WithdrawForm />} />
+              {/* Withdraw Sheet */}
+              <Route path="/WithdrawNow" element={<WithdrawNow />} />
+              <Route path="/WithdrawSheet" element={<WithdrawSheet />} />
+              <Route path="/WithdrawForm" element={<WithdrawForm />} />
 
-            {/* forms */}
-            <Route path="/OrderProduct" element={<OrderProduct />} />
+              {/* forms */}
+              <Route path="/OrderProduct" element={<OrderProduct />} />
 
-            <Route path="*" element={<Error />} />
-          </Routes>
-          <Footer />
-        </Router>
-      )}
+              <Route path="*" element={<Error />} />
+            </Routes>
+            <Footer />
+          </Router>
+        )}
+      </div>
     </div>
   );
 }
