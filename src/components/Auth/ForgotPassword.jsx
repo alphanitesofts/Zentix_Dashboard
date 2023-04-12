@@ -4,7 +4,7 @@ import baseUrl from "../Sourcefiles/BaseUrl";
 import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(2);
   const [checkPhone, setCheckPhone] = useState("");
 
   const [userAnswer, setUserAnswer] = useState("");
@@ -13,16 +13,20 @@ const ForgotPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [userQuestion, setuserQuestion] = useState("");
+
   const [fieldStatus, setFieldStatus] = useState(false);
+  const [answerField, setAnswerField] = useState(false)
 
-  // const []
 
+  const [loader, setLoader] = useState(false)
+  const [questionLoader, setQuestionLoader] = useState(false)
 
   const getQuestion = () => {
     if (!checkPhone) {
       setFieldStatus(true);
       toast.warn("Please enter phone number!");
     } else {
+      setLoader(true)
       var formdata = new FormData();
       formdata.append("phone", checkPhone);
 
@@ -36,6 +40,7 @@ const ForgotPassword = () => {
         .then((response) => response.json())
         .then((result) => {
           if (result.status === "200") {
+            setLoader(false)
             setIndex(index + 1);
             setuserQuestion(result.data[0].question);
             // alert(result.data[0].question)
@@ -43,6 +48,7 @@ const ForgotPassword = () => {
             // alert(result.message)
           } else if (result.status === "401") {
             toast.warn(result.message);
+            setLoader(false)
             // alert(result.message)
           }
           console.log(result.status);
@@ -56,38 +62,47 @@ const ForgotPassword = () => {
   };
 
   const checkQuestion = () => {
-    var formdata = new FormData();
-    formdata.append("phone", checkPhone);
-    formdata.append("question", userQuestion);
-    formdata.append("answer", userAnswer);
+    if (!userAnswer) {
+      setAnswerField(true)
+      toast.warn('Please write your security answer')
+    }
+    else {
+      setQuestionLoader(true)
+      var formdata = new FormData();
+      formdata.append("phone", checkPhone);
+      formdata.append("question", userQuestion);
+      formdata.append("answer", userAnswer);
 
-    var requestOptions = {
-      method: "POST",
-      body: formdata,
-      redirect: "follow",
-    };
+      var requestOptions = {
+        method: "POST",
+        body: formdata,
+        redirect: "follow",
+      };
 
-    fetch(`${baseUrl}question_check`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.status === "200") {
-          // toast.info(result.message)
-          setIndex(index + 1);
-        } else if (result.status === "401") {
-          toast.warn(result.message);
-        }
-        console.log(result);
-      })
-      .catch((error) => {
-        toast.warn("Something went wrong");
-        console.log("error", error);
-      });
+      fetch(`${baseUrl}question_check`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.status === "200") {
+            setAnswerField(false)
+            toast.info(result.message)
+            setIndex(index + 1);
+            setQuestionLoader()
+          } else if (result.status === "401") {
+            toast.warn(result.message);
+          }
+          console.log(result);
+        })
+        .catch((error) => {
+          toast.warn("Something went wrong");
+          console.log("error", error);
+        });
+    }
   };
 
   const updatePassword = () => {
     var formdata = new FormData();
-    formdata.append("password", "abcd12345");
-    formdata.append("confirm_password", "abcd12345");
+    formdata.append("password", newPassword);
+    formdata.append("confirm_password", confirmPassword);
     formdata.append("phone", checkPhone);
 
     var requestOptions = {
@@ -101,7 +116,7 @@ const ForgotPassword = () => {
       .then((result) => {
         if (result.status === "200") {
           // toast.info(result.message)
-          setIndex(index + 1);
+          setIndex(0);
         } else if (result.status === "401") {
           toast.warn(result.message);
         }
@@ -134,7 +149,7 @@ const ForgotPassword = () => {
                     <div>
                       <div className="input-group mb-3">
                         <input
-                          type="phone"
+                          type="number"
                           className="form-control"
                           onChange={(e) => setCheckPhone(e.target.value)}
                           style={{
@@ -157,7 +172,10 @@ const ForgotPassword = () => {
                             className="btn btn-secondary btn-block"
                             onClick={getQuestion}
                           >
-                            Request new password
+                            {
+                              loader === true ? 'Loading...' : 'Request new password'
+                            }
+
                           </button>
                         </div>
                       </div>
@@ -197,7 +215,7 @@ const ForgotPassword = () => {
                           onChange={(e) => setUserAnswer(e.target.value)}
                           style={{
                             borderColor:
-                              checkPhone === "" && fieldStatus === true
+                              userAnswer === "" && answerField === true
                                 ? "red"
                                 : "#ced4da",
                           }}
