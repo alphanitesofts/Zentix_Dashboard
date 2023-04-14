@@ -33,7 +33,7 @@ import TotalRecords from "./components/Main/TotalRecords";
 import DailyNotifications from "./components/Notifications/DailyNotifications";
 
 function App() {
-  const [login, SetLogin] = useState(true);
+  const [login, SetLogin] = useState(false);
 
   const setLocalLogin = async () => {
     try {

@@ -251,12 +251,12 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/" className="nav-link text-white">
+                  <a onClick={logOut} to="/" className="nav-link text-white">
                     &nbsp;&nbsp;
                     <i className="fa-solid fa-right-from-bracket" />
                     &nbsp;&nbsp;&nbsp;
                     <p>Logout</p>
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </nav>

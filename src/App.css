@@ -387,6 +387,11 @@ input[type="number"] {
   height: 90vh;
 }
 
+.register-scroll {
+  overflow-y: scroll;
+  height: 100vh;
+}
+
 .scrollbar-secondary-two::-webkit-scrollbar-track {
   box-shadow: transparent;
   border: none;
