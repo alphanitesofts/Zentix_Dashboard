@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import baseUrl from "../Sourcefiles/BaseUrl";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const DepositForm = () => {
-
+  const navigate = useNavigate();
   const location = useLocation();
   const { accType } = location.state;
   const { accSubType } = location.state;
@@ -23,6 +23,13 @@ const DepositForm = () => {
     SetLocalLogin()
   }, [])
 
+  const resetFields = () => {
+    setAccountTitle("")
+    setAccountNumber("")
+    setAmount("")
+    setInvoice("")
+    setTransactionID("")
+  }
 
   async function SetLocalLogin() {
 
@@ -66,15 +73,19 @@ const DepositForm = () => {
         .then(result => {
           console.log(result)
           if (result.status === "401") {
+            resetFields()
             toast.warn(result.message)
+            // setInterval(() => {
+            //   navigate('/DepositSheet')
+            // }, 2000);.
           }
           else if (result.status === "200") {
-            toast.warn(result.message)
+            toast.info(result.message)
           }
 
-          setInterval(() => {
-            window.location.reload(true)
-          }, 1500);
+          // setInterval(() => {
+          //   window.location.reload(true)
+          // }, 1500);
 
         })
         .catch(error => {

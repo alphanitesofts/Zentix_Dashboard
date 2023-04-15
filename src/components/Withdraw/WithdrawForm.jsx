@@ -65,9 +65,9 @@ const WithdrawForm = () => {
           console.log(result)
           if (result.status === "200") {
             toast.info(result.message)
-            setInterval(() => {
-              window.location.reload(true)
-            }, 1500);
+            // setInterval(() => {
+            //   window.location.reload(true)
+            // }, 1500);
           }
           if (result.status === "401") {
             toast.warn(result.message)
@@ -89,11 +89,11 @@ const WithdrawForm = () => {
           <div className="d-flex">
             <div className="me-auto">
               <h5 style={{ color: "#C70039" }}>Account Name</h5>
-              <p>Faraz Mahmood</p>
+              <p>{accountTitle}</p>
             </div>
             <div>
-              <h5 style={{ color: "#C70039" }}>Account Title</h5>
-              <p>03034450790</p>
+              <h5 style={{ color: "#C70039" }}>Account Number</h5>
+              <p>{accountNumber}</p>
             </div>
           </div>
         </div>

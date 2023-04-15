@@ -67,7 +67,7 @@ const UserReferrals = () => {
       <div className="content-wrapper">
         <h2 className="p-3">My Referrals</h2>
 
-        <div className="card card-styles m-3">
+        {/* <div className="card card-styles m-3">
           <h5 className="card-header pb-4">
             <b>My Referral Name</b>
           </h5>
@@ -88,7 +88,7 @@ const UserReferrals = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <section className="content">
           <div className="container-fluid">

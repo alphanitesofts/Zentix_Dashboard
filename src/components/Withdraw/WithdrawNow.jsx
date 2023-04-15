@@ -14,7 +14,7 @@ const WithdrawNow = () => {
   return (
     <div className="content-wrapper scroll-view-two scrollbar-secondary-two">
       <h2 className="p-3" style={{ color: "#5e5873" }}><b>Wallet</b></h2>
-      <div className="card m-3 shadow-lg bg-body card-styles">
+      {/* <div className="card m-3 shadow-lg bg-body card-styles">
         <div className="card-body">
           <strong>Balance</strong>
           <hr className="w-100" />
@@ -22,7 +22,7 @@ const WithdrawNow = () => {
             PKR <span className="text-danger">990</span>
           </h1>
         </div>
-      </div>
+      </div> */}
 
       <div className="card m-3 shadow-lg bg-body rounded card-styles mb-5">
         <div className="card-body">

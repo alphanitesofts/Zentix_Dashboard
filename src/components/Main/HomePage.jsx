@@ -9,8 +9,8 @@ const HomePage = () => {
   const [roleID, setRoleID] = useState("");
   const [isInvested, setIsInvested] = useState("0");
 
-  const [packageStatus, setPackageStatus] = useState("");
-  const [packageDetails, setPackageDetails] = useState('');
+  const [packageStatus, setPackageStatus] = useState([]);
+  const [packageDetails, setPackageDetails] = useState([]);
 
   const [loader, setLoader] = useState(false)
 
@@ -397,6 +397,7 @@ const HomePage = () => {
                 </div>
               </>
         }
+
 
       </div>
     </div>

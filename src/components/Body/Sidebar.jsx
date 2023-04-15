@@ -130,7 +130,7 @@ const Sidebar = () => {
                   </Link>
                 </li>
 
-                <li className="nav-item menu-close">
+                <li className="nav-item menu-open">
                   <a href="#" className="nav-link text-white">
                     &nbsp;
                     <i className="nav-icon fas fa-regular fa-sack-dollar" />
@@ -174,7 +174,7 @@ const Sidebar = () => {
                   </ul>
                 </li>
 
-                <li className="nav-item menu-close">
+                <li className="nav-item menu-open">
                   <a href="#" className="nav-link text-white">
                     &nbsp;
                     <i className="nav-icon fas fa-credit-card" />
@@ -208,7 +208,7 @@ const Sidebar = () => {
                   </ul>
                 </li>
 
-                <li className="nav-item menu-close">
+                <li className="nav-item menu-open">
                   <a href="#" className="nav-link text-white">
                     &nbsp;
                     <i className="nav-icon fas fa-solid fa-cloud-arrow-down" />
