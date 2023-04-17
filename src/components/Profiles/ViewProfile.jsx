@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import BaseUrlImages from '../Sourcefiles/BaseUrlImages'
 
 const ViewProfile = () => {
-
+  const [isInvested, setIsInvested] = useState("0");
   const [shouldShow, setShouldShow] = useState(false)
   const [roleID, setRoleID] = useState("");
   const [profile, setProfile] = useState('')
@@ -24,6 +24,7 @@ const ViewProfile = () => {
       let parsed_user = JSON.parse(user);
       if (parsed_user) {
         setRoleID(parsed_user);
+        fetchUserState(parsed_user.id)
         setProfile(parsed_user.pro_pic)
         setEmail(parsed_user.email)
         setFirstName(parsed_user.firstname)
@@ -32,6 +33,20 @@ const ViewProfile = () => {
     } catch {
       return null;
     }
+  };
+
+  const fetchUserState = (id) => {
+    var requestOptions = {
+      method: "POST",
+      redirect: "follow",
+    };
+
+    fetch(`${baseUrl}fetchuserwithid/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setIsInvested(result.data.state);
+      })
+      .catch((error) => console.log("error", error));
   };
 
   const updateProfile = () => {
@@ -112,7 +127,7 @@ const ViewProfile = () => {
             </div>
             <div className="ms-auto">
               <h5 className="me-auto">Referral Name</h5>
-              <h6>{roleID != "" ? roleID.referal_code : ""}</h6>
+              <h6>{isInvested === "0" ? "InActive" : roleID.referal_code}</h6>
               <hr />
               <h5>Join Date</h5>
               <h6>{roleID != "" ? roleID.Idate : ""}</h6>

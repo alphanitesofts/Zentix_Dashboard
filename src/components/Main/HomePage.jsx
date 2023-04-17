@@ -131,7 +131,7 @@ const HomePage = () => {
                           </div>
                           <div className="ms-auto me-3">
                             <p>
-                              {isInvested === "0" ? "InActive" : roleID.my_code}
+                              {isInvested === "0" ? "InActive" : roleID.referal_code}
                             </p>
                           </div>
                         </div>

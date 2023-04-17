@@ -73,17 +73,6 @@ const Navbar = () => {
               </form>
             </div>
           </li>
-
-          <li className="nav-item">
-            <a
-              className="nav-link"
-              data-widget="fullscreen"
-              href="#"
-              role="button"
-            >
-              <i className="fas fa-expand-arrows-alt" />
-            </a>
-          </li>
           <li className="nav-item">
             <a className="nav-link" onClick={logOut} role="button">
               <i className="fa-solid fa-right-from-bracket" />

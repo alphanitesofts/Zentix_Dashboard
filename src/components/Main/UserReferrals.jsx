@@ -156,7 +156,6 @@ const UserReferrals = () => {
                         </> :
 
                         <>
-
                           <table
                             id="example2"
                             className="table  table-bordered table-hover  "
