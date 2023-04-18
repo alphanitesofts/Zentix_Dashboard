@@ -118,7 +118,7 @@ const BonusSheet = () => {
           <div className="card-body d-flex">
             <h4 className="mt-2">My Bonus</h4>
             <h1 className="ms-auto">
-              <i className="fa-solid fa-dollar" /> <span className="text-danger">{showCoins}</span>
+              Pkr <span className="text-danger">{showCoins}</span>
             </h1>
           </div>
         </div>

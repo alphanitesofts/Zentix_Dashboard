@@ -295,8 +295,8 @@ const HomePage = () => {
                   </div>
                 </div>
               </div>
-            </> :
-
+            </> 
+            :
             packageStatus === "200" ?
               <>
                 <div className="">

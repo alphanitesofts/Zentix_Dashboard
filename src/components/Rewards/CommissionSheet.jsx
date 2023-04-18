@@ -99,7 +99,7 @@ const CommissionSheet = () => {
   function Content({ items }) {
     return (
       <tr>
-        <td>{items.user_id}</td>
+        <td>{items.id}</td>
         <td>{items.username}</td>
         <td>{items.commission}</td>
         <td>{items.commission_from}</td>
@@ -119,7 +119,7 @@ const CommissionSheet = () => {
           <div className="card-body d-flex">
             <h4 className="mt-2">My Commission</h4>
             <h1 className="ms-auto">
-              <i className="fa-solid fa-dollar" /> <span className="text-danger">{showCoins}</span>
+              Pkr <span className="text-danger">{showCoins}</span>
             </h1>
           </div>
         </div>
@@ -194,7 +194,7 @@ const CommissionSheet = () => {
                               <tr>
                                 <th>User ID</th>
                                 <th>Username</th>
-                                <th>Coins</th>
+                                <th>Commission</th>
                                 <th>Referred By</th>
                                 <th>Transaction Type</th>
                                 <th>Date</th>

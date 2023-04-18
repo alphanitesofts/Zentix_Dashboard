@@ -45,12 +45,10 @@ const BuyPackage = ({ userInfo, showModal, closeModal }) => {
         setButtonLoader(false)
         console.log(result)
         if (result.status === "401") {
-
-          toast.info(result.message)
+          toast.warn(result.message)
         }
         else if (result.status === "200") {
-          toast.info("Package Bought Successfully!!")
-
+          toast.info("Package Bought Successfully!")
         }
       })
       .catch(error => {

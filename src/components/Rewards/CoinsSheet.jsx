@@ -119,7 +119,7 @@ const CoinsSheet = () => {
           <div className="card-body d-flex">
             <h4 className="mt-2">My Coins</h4>
             <h1 className="ms-auto">
-              <i className="fa-solid fa-dollar" /> <span className="text-danger">{showCoins}</span>
+            Pkr <span className="text-danger">{showCoins}</span>
             </h1>
           </div>
         </div>
