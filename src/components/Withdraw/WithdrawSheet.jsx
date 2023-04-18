@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import baseUrl from "../Sourcefiles/BaseUrl";
 import axios from "axios";
+import baseUrlImage from "../Sourcefiles/BaseUrlImages";
 
 const WithdrawSheet = () => {
   const [userData, setUserData] = useState([])
-
+const [totalWithdrawal, setTotalWithdrawal] = useState('')
   const [loader, setLoader] = useState(false)
 
   const [status, setStatus] = useState("")
@@ -54,6 +55,7 @@ const WithdrawSheet = () => {
     axios.post(`${baseUrl}fetch_withdrawl_request_by_userid`, orderObj)
       .then(res => {
         setLoader(false)
+        setTotalWithdrawal(res.data.Total_withdrawl)
         setUserData(res.data.data)
         console.log(res.data)
       })
@@ -72,6 +74,7 @@ const WithdrawSheet = () => {
         <td>{items.account_number}</td>
         <td>{items.account_type}</td>
         <td>{items.account_subtype}</td>
+        {items.status === "approved" ? <td className="text-success">{items.status}</td> : <td className="text-danger">{items.status}</td>}
         <td>{items.Idate}</td>
       </tr>
     )
@@ -108,6 +111,15 @@ const WithdrawSheet = () => {
     <div className="scroll-view-two scrollbar-secondary-two">
       <div className="content-wrapper">
         <h2 className="p-3">Withdrawals</h2>
+
+        <div className="card m-3 bg-body card-styles">
+          <div className="card-body d-flex">
+            <h4 className="mt-2">Total Withdrawals</h4>
+            <h1 className="ms-auto">
+              Pkr <span className="text-danger">{totalWithdrawal}</span>
+            </h1>
+          </div>
+        </div>
         <section className="content">
           <div className="container-fluid">
             <div className="row">
@@ -176,6 +188,7 @@ const WithdrawSheet = () => {
                                 <th>Account No</th>
                                 <th>Account Type</th>
                                 <th>Account Subtype</th>
+                                <th>status</th>
                                 <th>Date</th>
                               </tr>
                             </thead>

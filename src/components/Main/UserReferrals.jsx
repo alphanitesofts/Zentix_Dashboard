@@ -10,6 +10,8 @@ const UserReferrals = () => {
   const [orderID, setOrderID] = useState("");
   const [orderDate, setOrderdate] = useState("");
   const [phone, setPhoneNo] = useState("");
+  const [status, setStatus] = useState('')
+
 
   const [firstMember, setFirstMembers] = useState([])
   const [secondMember, setSecondMembers] = useState([])
@@ -95,54 +97,49 @@ const UserReferrals = () => {
             <div className="row">
               <div className="col-12">
                 <div className="card card-styles">
-                  <div className="card-header">
+                  {/* <div className="card-header">
 
                     <h3 className="card-title">
                       <b>My Referrals Users</b>
                     </h3>
-                  </div>
+                  </div> */}
 
                   <div className="card-body table-responsive">
-                    <div className="form-group d-flex">
-                      <select
-                        className="form-select"
-                        style={{ borderRadius: "10em" }}
-                        aria-label="Default select example"
-                      >
-                        <option selected>Status</option>
-                        <option value={1}>Approved</option>
-                        <option value={2}>unapproved</option>
-                      </select>
-                      &nbsp;&nbsp;&nbsp;
-                      <input
-                        className="form-control"
-                        type="number"
-                        placeholder="Search with order ID"
-                        onChange={(e) => {
-                          setOrderID(e.target.value);
-                        }}
-                        aria-label="Search"
-                        style={{ borderRadius: "10em" }}
-                      />
-                      &nbsp;&nbsp;&nbsp;
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Search with Phone"
-                        onChange={(e) => setPhoneNo(e.target.value)}
-                        aria-label="Search"
-                        style={{ borderRadius: "10em" }}
-                      />
-                      &nbsp;&nbsp;&nbsp;
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Enter date in YYYY-MM-DD"
-                        onChange={(e) => setOrderdate(e.target.value)}
-                        aria-label="Search"
-                        style={{ borderRadius: "10em" }}
-                      />
+                    <div>
+                      <div className="row">
+                        <input
+                          className="form-control col-lg-4 mb-2"
+                          type="number"
+                          placeholder="Search with order ID"
+                          onChange={(e) => {
+                            setOrderID(e.target.value);
+                          }}
+                          aria-label="Search"
+                          style={{ borderRadius: "10em" }}
+                        />
+
+                        <input
+                          className="form-control col-lg-4 mb-2"
+                          type="text"
+                          placeholder="Search with Name"
+                          onChange={(e) => setPhoneNo(e.target.value)}
+                          aria-label="Search"
+                          style={{ borderRadius: "10em" }}
+                        />
+
+                        <input
+                          className="form-control col-lg-4 mb-2"
+                          type="text"
+                          placeholder="Enter date in YYYY-MM-DD"
+                          onChange={(e) => setOrderdate(e.target.value)}
+                          aria-label="Search"
+                          style={{ borderRadius: "10em" }}
+                        />
+                      </div>
+
                     </div>
+
+
                     {
                       loader === true ?
                         <>
@@ -156,18 +153,20 @@ const UserReferrals = () => {
                         </> :
 
                         <>
+                          <h4 className="mt-3 mb-0">First Refferals</h4>
                           <table
                             id="example2"
-                            className="table  table-bordered table-hover  "
+                            className="table mt-2  table-bordered table-hover  "
                           >
                             <thead className="table-success">
                               <tr>
-                                {/* <th>Sr. No.</th>  */}
+                                <th>User ID</th>
                                 <th>firstname</th>
                                 <th>username</th>
                                 <th>email</th>
                                 <th>cnic</th>
                                 <th>Phone No.</th>
+                                <th>Date</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -176,11 +175,13 @@ const UserReferrals = () => {
                                   return (
                                     <>
                                       <tr>
+                                        <td>{items.id}</td>
                                         <td>{items.firstname}</td>
                                         <td>{items.username}</td>
                                         <td>{items.email}</td>
                                         <td>{items.cnic}</td>
                                         <td>{items.phone}</td>
+                                        <td>{items.Idate}</td>
                                       </tr>
                                     </>
                                   )
@@ -193,16 +194,17 @@ const UserReferrals = () => {
                           <h4 className="mt-5 mb-0">Second Refferals</h4>
                           <table
                             id="example2"
-                            className="table mt-5 table-bordered table-hover  "
+                            className="table mt-2 table-bordered table-hover  "
                           >
                             <thead className="table-success">
                               <tr>
-                                {/* <th>Sr. No.</th>  */}
+                                <th>User ID</th>
                                 <th>firstname</th>
                                 <th>username</th>
                                 <th>email</th>
                                 <th>cnic</th>
                                 <th>Phone No.</th>
+                                <th>Date</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -211,11 +213,13 @@ const UserReferrals = () => {
                                   return (
                                     <>
                                       <tr>
+                                        <td>{items.id}</td>
                                         <td>{items.firstname}</td>
                                         <td>{items.username}</td>
                                         <td>{items.email}</td>
                                         <td>{items.cnic}</td>
                                         <td>{items.phone}</td>
+                                        <td>{items.Idate}</td>
                                       </tr>
                                     </>
                                   )

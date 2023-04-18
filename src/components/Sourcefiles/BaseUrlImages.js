@@ -1,3 +1,3 @@
-const baseUrlImage = "https://zentix.live"
+const baseUrlImage = "https://posts.zentix.live/";
 
-export default baseUrlImage
+export default baseUrlImage;

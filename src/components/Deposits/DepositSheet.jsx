@@ -1,10 +1,12 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import baseUrl from "../Sourcefiles/BaseUrl";
 import axios from "axios";
+import baseUrlImage from "../Sourcefiles/BaseUrlImages";
 
 const DepositSheet = () => {
 
   const [userData, setUserData] = useState([])
+  const [totalDeposit, setTotalDeposit] = useState()
 
   const [loader, setLoader] = useState(false)
 
@@ -13,20 +15,8 @@ const DepositSheet = () => {
   const [orderDate, setOrderdate] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
 
-  const [uid, setUid] = useState();
+  useEffect(() => { SetLocalLogin() }, [])
 
-
-  useEffect(() => { 
-  
-    // getData()
-    SetLocalLogin()
-  
-  }, 
-    []
-    
-    )
-
-    
   async function SetLocalLogin() {
 
     try {
@@ -41,10 +31,7 @@ const DepositSheet = () => {
     }
   };
 
-
-
   const getData = (id) => {
-    // alert(id)
     setLoader(true)
     const orderObj = {
       payer_id: id
@@ -53,7 +40,7 @@ const DepositSheet = () => {
     axios.post(`${baseUrl}fetchdepositwithid`, orderObj)
       .then(res => {
         setLoader(false)
-        // setUid(res.data.data)
+        setTotalDeposit(res.data.total_deposit)
         setUserData(res.data.data)
         console.log(res.data)
       })
@@ -61,11 +48,6 @@ const DepositSheet = () => {
         console.log(error)
       })
   }
-
-
-
-  
-
 
 
   const filteredData = orderID && !phoneNo && !orderDate ?
@@ -83,24 +65,17 @@ const DepositSheet = () => {
               userData
 
 
-
-
-
-
-
-
-
   function Content({ items }) {
     return (
       <tr>
-        <td>{items.payer_id}</td>
+        <td>{items.id}</td>
         <td>{items.account_title}</td>
         <td>{items.amount}</td>
         <td>{items.account_no}</td>
         <td>{items.account_type}</td>
         <td>{items.account_subtype}</td>
-        <td>{items.proof_image}</td>
-        <td>{items.status}</td>
+        <td><img src={`${baseUrlImage}${items.proof_image}`} className="img-fluid" alt="deposit images" /></td>
+        {items.status === "approved" ? <td className="text-success">{items.status}</td> : <td className="text-danger">{items.status}</td>}
         <td>{items.Idate}</td>
       </tr>
     )
@@ -115,10 +90,8 @@ const DepositSheet = () => {
     }
   }
 
-
   // filters condition
   const DataRender = () => {
-
     return (
       <>
         {
@@ -134,14 +107,19 @@ const DepositSheet = () => {
 
   }
 
-
-
-
-
   return (
     <div className="scroll-view-two scrollbar-secondary-two">
       <div className="content-wrapper">
         <h2 className="p-3" style={{ color: "#5e5873" }}><b>Deposits</b></h2>
+
+        <div className="card m-3 bg-body card-styles">
+          <div className="card-body d-flex">
+            <h4 className="mt-2">Total Deposits</h4>
+            <h1 className="ms-auto">
+              Pkr <span className="text-danger">{totalDeposit}</span>
+            </h1>
+          </div>
+        </div>
         <section className="content">
           <div className="container-fluid">
             <div className="row">

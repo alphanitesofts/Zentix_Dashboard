@@ -116,6 +116,9 @@ const Register = () => {
         console.log(result);
         if (result.response === "200") {
           toast.success("Member Registered");
+          setInterval(() => {
+            window.location.reload(true);
+          }, 1000);
         } else if (result.status === "401") {
           // toast.warn(result.data[0].message)
 
@@ -124,9 +127,7 @@ const Register = () => {
           // console.log("consoledd",result.data[0].message)
         }
         // useNavigate(/)
-        // setInterval(() => {
-        //   window.location.reload(true);
-        // }, 1000);
+
       })
       .catch((error) => {
         console.log("error", error);
@@ -214,7 +215,7 @@ const Register = () => {
                       <input
                         type="text"
                         className="placeHolderStyle "
-                        placeholder="Referral Username"
+                        placeholder="Referral Code"
                         onChange={(e) => setReferralUsername(e.target.value)}
                       />
                       <span className="fas fa-signature" />
