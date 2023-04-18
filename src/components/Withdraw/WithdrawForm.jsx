@@ -43,46 +43,51 @@ const WithdrawForm = () => {
       toast.warn('Please fill all fields')
     }
     else {
-      setButtonLoader(true)
-      var formdata = new FormData();
-      formdata.append("account_title", accountTitle);
-      formdata.append("account_type", accType);
-      formdata.append("account_number", accountNumber);
-      formdata.append("requested_amount", amount);
-      formdata.append("user_id", userId);
-      formdata.append("account_subtype", accSubType ? accSubType : accountSub);
+      if (amount <= 499) {
+        toast.warn('You can withdraw minimum 500')
+      }
+      else {
+        setButtonLoader(true)
+        var formdata = new FormData();
+        formdata.append("account_title", accountTitle);
+        formdata.append("account_type", accType);
+        formdata.append("account_number", accountNumber);
+        formdata.append("requested_amount", amount);
+        formdata.append("user_id", userId);
+        formdata.append("account_subtype", accSubType ? accSubType : accountSub);
 
-      var requestOptions = {
-        method: 'POST',
-        body: formdata,
-        redirect: 'follow'
-      };
+        var requestOptions = {
+          method: 'POST',
+          body: formdata,
+          redirect: 'follow'
+        };
 
-      fetch(`${baseUrl}PostWithdrawl`, requestOptions)
-        .then(response => response.json())
-        .then(result => {
-          setButtonLoader(false)
-          console.log(result)
-          if (result.status === "200") {
-            toast.info(result.message)
-            // setInterval(() => {
-            //   window.location.reload(true)
-            // }, 1500);
-          }
-          if (result.status === "401") {
-            toast.warn(result.message)
-          }
-        })
-        .catch(error => {
-          console.log('error', error)
-          toast.error('Error While Withdrawing...')
-        })
+        fetch(`${baseUrl}PostWithdrawl`, requestOptions)
+          .then(response => response.json())
+          .then(result => {
+            setButtonLoader(false)
+            console.log(result)
+            if (result.status === "200") {
+              toast.info(result.message)
+              // setInterval(() => {
+              //   window.location.reload(true)
+              // }, 1500);
+            }
+            if (result.status === "401") {
+              toast.warn(result.message)
+            }
+          })
+          .catch(error => {
+            console.log('error', error)
+            toast.error('Error While Withdrawing...')
+          })
+      }
     }
   }
 
   return (
     <div className="scroll-view-two scrollbar-secondary-two  content-wrapper">
-      <h2 className="p-3">Deposit Form</h2>
+      <h2 className="p-3">Withdraw Form</h2>
 
       <div className="card m-3 border border-danger mb-3 card-styles">
         <div className="card-header text-danger">

@@ -295,7 +295,7 @@ const HomePage = () => {
                   </div>
                 </div>
               </div>
-            </> 
+            </>
             :
             packageStatus === "200" ?
               <>
@@ -397,7 +397,6 @@ const HomePage = () => {
                 </div>
               </>
         }
-
 
       </div>
     </div>

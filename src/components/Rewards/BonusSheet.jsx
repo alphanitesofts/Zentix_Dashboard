@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import baseUrl from "../Sourcefiles/BaseUrl";
+import { toast } from "react-toastify";
 
 const BonusSheet = () => {
 
@@ -46,8 +47,13 @@ const BonusSheet = () => {
       .then(response => response.json())
       .then(result => {
         setLoader(false)
-        setUserData(result.bonus_list)
-        setShowBonus(result.my_total_bonus)
+        if (result.status === "401") {
+          toast.warn('No Data Available')
+        }
+        else if (result.status === "200") {
+          setUserData(result.bonus_list)
+          setShowBonus(result.my_total_bonus)
+        }
         console.log(result)
       })
       .catch(error => {

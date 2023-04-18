@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import baseUrl from "../Sourcefiles/BaseUrl";
+import { toast } from "react-toastify";
+
 
 const CommissionSheet = () => {
 
   const [userData, setUserData] = useState([])
-  const [showCoins, setShowCoins] = useState('')
+  const [showCommission, setShowCommission] = useState('')
 
   const [userID, setuserID] = useState("");
   const [userDate, setuserDate] = useState("");
@@ -46,8 +48,13 @@ const CommissionSheet = () => {
       .then(response => response.json())
       .then(result => {
         setLoader(false)
-        setUserData(result.commission_list)
-        setShowCoins(result.my_total_commission)
+        if (result.status === "401") {
+          toast.warn('No Data Available')
+        }
+        else if (result.status === "200") {
+          setUserData(result.bonus_list)
+          setShowCommission(result.my_total_bonus)
+        }
         console.log(result)
       })
       .catch(error => {
@@ -119,7 +126,7 @@ const CommissionSheet = () => {
           <div className="card-body d-flex">
             <h4 className="mt-2">My Commission</h4>
             <h1 className="ms-auto">
-              Pkr <span className="text-danger">{showCoins}</span>
+              Pkr <span className="text-danger">{showCommission}</span>
             </h1>
           </div>
         </div>
