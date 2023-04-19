@@ -7,39 +7,30 @@ const UserReferrals = () => {
   const [data, setData] = useState([])
 
 
-  const [orderID, setOrderID] = useState("");
-  const [orderDate, setOrderdate] = useState("");
-  const [phone, setPhoneNo] = useState("");
-  const [status, setStatus] = useState('')
+  const [userID, setUserID] = useState("");
+  const [refferalDate, setRefeeraldate] = useState("");
+  const [userName, setUserName] = useState("");
 
 
   const [firstMember, setFirstMembers] = useState([])
   const [secondMember, setSecondMembers] = useState([])
   const [loader, setLoader] = useState(false)
 
-  async function SetLocalLogin() {
+  useEffect(() => {
+    SetLocalLogin();
+  }, [])
 
+  async function SetLocalLogin() {
     try {
       let user = await localStorage.getItem("user");
       let parsed_user = JSON.parse(user);
       if (parsed_user) {
         getRefferals(parsed_user.id);
-        // setRoleID(parsed_user)
       }
     } catch {
       return null;
     }
   };
-
-
-  const textRef = useRef(null);
-
-  const handleCopy = () => {
-    textRef.current.select();
-    document.execCommand("copy");
-    toast.info("Text copied")
-  };
-
 
   const getRefferals = (id) => {
     setLoader(true)
@@ -60,59 +51,82 @@ const UserReferrals = () => {
       })
   }
 
-  useEffect(() => {
-    SetLocalLogin();
-  }, [])
+  const loadingSection = () => {
+    if (firstMember.length < 1) {
+      return <h4 className='text-center'>No Data Available</h4>
+    }
+    else {
+      return <DataRender />
+    }
+  }
+
+  const DataRender = () => {
+    return (
+      <>
+        {
+          filteredData.map((items) => {
+            return (
+              <Content items={items} />
+            )
+          }
+          )
+        }
+      </>
+    )
+  }
+
+  const filteredData = userID && !userName && !refferalDate ?
+    firstMember.filter((objects) => objects.id === (userID)) :
+    userName && !userID && !refferalDate ?
+      firstMember.filter((objects) => objects.firstname === userName) :
+      refferalDate && !userID && !userName ?
+        firstMember.filter((objects) => objects.Idate === refferalDate) :
+        userID && userName && !refferalDate ?
+          firstMember.filter((objects) => objects.id === (userID) && objects.firstname == userName) :
+          userName && refferalDate && !userID ?
+            firstMember.filter((objects) => objects.firstname === userName && objects.Idate == refferalDate) :
+            userID && userName && refferalDate ?
+              firstMember.filter((objects) => objects.id === (userID) && objects.firstname === userName && objects.Idate === refferalDate) :
+              firstMember
+
+  function Content({ items }) {
+    return (
+      <tr>
+        <td>{items.id}</td>
+        <td>{items.firstname}</td>
+        <td>{items.username}</td>
+        <td>{items.email}</td>
+        <td>{items.cnic}</td>
+        <td>{items.phone}</td>
+        <td>{items.Idate}</td>
+      </tr>
+    )
+  }
 
   return (
     <div className="scroll-view-two scrollbar-secondary-two">
       <div className="content-wrapper">
-        <h2 className="p-3">My Referrals</h2>
-
-        {/* <div className="card card-styles m-3">
-          <h5 className="card-header pb-4">
-            <b>My Referral Name</b>
-          </h5>
-          <div className="card-body">
-            <div className="input-group mb-3">
-
-              <input
-                type="text"
-                ref={textRef}
-                value={"DxFR1889"}
-                className="form-control"
-                aria-label="Amount (to the nearest dollar)"
-              />
-              <button
-                className="input-group-text btn-success ms-2" onClick={handleCopy}
-              >
-                Copy
-              </button>
-            </div>
-          </div>
-        </div> */}
+        <h2 className="p-3">Referrals</h2>
 
         <section className="content">
           <div className="container-fluid">
             <div className="row">
               <div className="col-12">
                 <div className="card card-styles">
-                  {/* <div className="card-header">
-
+                  <div className="card-header">
                     <h3 className="card-title">
                       <b>My Referrals Users</b>
                     </h3>
-                  </div> */}
-
+                  </div>
                   <div className="card-body table-responsive">
                     <div>
                       <div className="row">
                         <input
                           className="form-control col-lg-4 mb-2"
                           type="number"
-                          placeholder="Search with order ID"
+                          placeholder="Search with User ID"
                           onChange={(e) => {
-                            setOrderID(e.target.value);
+                            setUserID(e.target.value);
                           }}
                           aria-label="Search"
                           style={{ borderRadius: "10em" }}
@@ -122,7 +136,7 @@ const UserReferrals = () => {
                           className="form-control col-lg-4 mb-2"
                           type="text"
                           placeholder="Search with Name"
-                          onChange={(e) => setPhoneNo(e.target.value)}
+                          onChange={(e) => setUserName(e.target.value)}
                           aria-label="Search"
                           style={{ borderRadius: "10em" }}
                         />
@@ -131,7 +145,7 @@ const UserReferrals = () => {
                           className="form-control col-lg-4 mb-2"
                           type="text"
                           placeholder="Enter date in YYYY-MM-DD"
-                          onChange={(e) => setOrderdate(e.target.value)}
+                          onChange={(e) => setRefeeraldate(e.target.value)}
                           aria-label="Search"
                           style={{ borderRadius: "10em" }}
                         />
@@ -153,7 +167,7 @@ const UserReferrals = () => {
                         </> :
 
                         <>
-                          <h4 className="mt-3 mb-0">First Refferals</h4>
+                          <h4 className="mt-3 mb-0">First Referrals</h4>
                           <table
                             id="example2"
                             className="table mt-2  table-bordered table-hover  "
@@ -191,7 +205,7 @@ const UserReferrals = () => {
                           </table>
 
 
-                          <h4 className="mt-5 mb-0">Second Refferals</h4>
+                          <h4 className="mt-5 mb-0">Second Referrals</h4>
                           <table
                             id="example2"
                             className="table mt-2 table-bordered table-hover  "

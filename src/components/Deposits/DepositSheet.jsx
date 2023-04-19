@@ -4,21 +4,21 @@ import axios from "axios";
 import baseUrlImage from "../Sourcefiles/BaseUrlImages";
 
 const DepositSheet = () => {
+  const [userData, setUserData] = useState([]);
+  const [totalDeposit, setTotalDeposit] = useState();
 
-  const [userData, setUserData] = useState([])
-  const [totalDeposit, setTotalDeposit] = useState()
+  const [loader, setLoader] = useState(false);
 
-  const [loader, setLoader] = useState(false)
+  const [status, setStatus] = useState("");
+  const [userID, setUserID] = useState("");
+  const [depositDate, setDepositDate] = useState("");
+  const [userName, setUserName] = useState("");
 
-  const [status, setStatus] = useState("")
-  const [orderID, setOrderID] = useState("");
-  const [orderDate, setOrderdate] = useState("");
-  const [phoneNo, setPhoneNo] = useState("");
-
-  useEffect(() => { SetLocalLogin() }, [])
+  useEffect(() => {
+    SetLocalLogin();
+  }, []);
 
   async function SetLocalLogin() {
-
     try {
       let user = await localStorage.getItem("user");
       let parsed_user = JSON.parse(user);
@@ -29,41 +29,63 @@ const DepositSheet = () => {
     } catch {
       return null;
     }
-  };
-
-  const getData = (id) => {
-    setLoader(true)
-    const orderObj = {
-      payer_id: id
-    }
-
-    axios.post(`${baseUrl}fetchdepositwithid`, orderObj)
-      .then(res => {
-        setLoader(false)
-        setTotalDeposit(res.data.total_deposit)
-        setUserData(res.data.data)
-        console.log(res.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
   }
 
+  const getData = (id) => {
+    setLoader(true);
+    const orderObj = {
+      payer_id: id,
+    };
 
-  const filteredData = orderID && !phoneNo && !orderDate ?
-    userData.filter((objects) => objects.payer_id === (orderID)) :
-    phoneNo && !orderID && !orderDate ?
-      userData.filter((objects) => objects.account_title === phoneNo) :
-      orderDate && !orderID && !phoneNo ?
-        userData.filter((objects) => objects.ldate === orderDate) :
-        orderID && phoneNo && !orderDate ?
-          userData.filter((objects) => objects.payer_id === (orderID) && objects.account_title == phoneNo) :
-          phoneNo && orderDate && !orderID ?
-            userData.filter((objects) => objects.account_title === phoneNo && objects.ldate == orderDate) :
-            orderID && phoneNo && orderDate ?
-              userData.filter((objects) => objects.payer_id === (orderID) && objects.account_title === phoneNo && objects.ldate === orderDate) :
-              userData
+    axios
+      .post(`${baseUrl}fetchdepositwithid`, orderObj)
+      .then((res) => {
+        setLoader(false);
+        setTotalDeposit(res.data.total_deposit);
+        setUserData(res.data.data);
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
+  const filteredData =
+    status && !userID && !userName && !depositDate
+      ? userData.filter((objects) => objects.status === status)
+      : userID && !status && !userName && !depositDate
+        ? userData.filter((objects) => objects.id === userID)
+        : userName && !status && !userID && !depositDate
+          ? userData.filter((objects) => objects.account_title === userName)
+          : depositDate && !status && !userName && !userID
+            ? userData.filter((objects) => objects.Idate === depositDate)
+            : status && userID && !userName && !depositDate
+              ? userData.filter((objects) => objects.status === status && objects.id == userID)
+              : status && !userID && userName && !depositDate
+                ? userData.filter((objects) => objects.status === status && objects.account_title == userID)
+                : status && !userID && !userName && depositDate
+                  ? userData.filter((objects) => objects.status === status && objects.Idate == userID)
+                  //  sequence 2
+                  : !status && userID && userName && !depositDate
+                    ? userData.filter((objects) => objects.id === userID && objects.account_title == userName)
+                    : !status && userID && !userName && depositDate
+                      ? userData.filter((objects) => objects.id === userID && objects.Idate == depositDate)
+                      //  sequence 3
+                      : !status && !userID && userName && depositDate
+                        ? userData.filter((objects) => objects.account_title === userName && objects.Idate == depositDate)
+                        //  sequence 4
+                        : status && !userID && !userName && depositDate
+                          ? userData.filter((objects) => objects.status === status && objects.Idate == depositDate)
+                          : !status && !userID && userName && depositDate
+                            ? userData.filter((objects) => objects.account_title === userID && objects.Idate == depositDate)
+                            //  sequence 5
+                            : status && userID && userName && !depositDate
+                              ? userData.filter((objects) => objects.status === status && objects.id == userID && objects.account_title == userName)
+                              : status && userID && !userName && depositDate
+                                ? userData.filter((objects) => objects.status === status && objects.id == userID && objects.Idate == depositDate)
+                                : status && !userID && userName && depositDate
+                                  ? userData.filter((objects) => objects.status === status && objects.account_title == userName && objects.Idate == depositDate)
+                                  : userData
 
   function Content({ items }) {
     return (
@@ -74,50 +96,59 @@ const DepositSheet = () => {
         <td>{items.account_no}</td>
         <td>{items.account_type}</td>
         <td>{items.account_subtype}</td>
-        <td><img src={`${baseUrlImage}${items.proof_image}`} className="img-fluid" alt="deposit images" /></td>
-        {items.status === "approved" ? <td className="text-success">{items.status}</td> : <td className="text-danger">{items.status}</td>}
+        <td>
+          <img
+            src={`${baseUrlImage}${items.proof_image}`}
+            className="img-fluid"
+            style={{ cursor: "pointer", height: "70px" }}
+            onClick={() =>
+              window.open(`${baseUrlImage}${items.proof_image}`, "_blank")
+            }
+            alt="deposit images"
+          />
+        </td>
+        {items.status === "approved" ? (
+          <td className="text-success">{items.status}</td>
+        ) : (
+          <td className="text-danger">{items.status}</td>
+        )}
         <td>{items.Idate}</td>
       </tr>
-    )
+    );
   }
 
   const loadingSection = () => {
     if (userData.length < 1) {
-      return <h4 className='text-center'>No Data Available</h4>
+      return <h4 className="text-center">No Data Available</h4>;
+    } else {
+      return <DataRender />;
     }
-    else {
-      return <DataRender />
-    }
-  }
+  };
 
   // filters condition
   const DataRender = () => {
     return (
       <>
-        {
-          filteredData.map((items) => {
-            return (
-              <Content items={items} />
-            )
-          }
-          )
-        }
+        {filteredData.map((items) => {
+          return <Content items={items} />;
+        })}
       </>
-    )
-
-  }
+    );
+  };
 
   return (
     <div className="scroll-view-two scrollbar-secondary-two">
       <div className="content-wrapper">
-        <h2 className="p-3" style={{ color: "#5e5873" }}><b>Deposits</b></h2>
+        <h4 className="p-3" style={{ color: "#5e5873" }}>
+          <b>Deposits</b>
+        </h4>
 
         <div className="card m-3 bg-body card-styles">
           <div className="card-body d-flex">
             <h4 className="mt-2">Total Deposits</h4>
-            <h1 className="ms-auto">
+            <h3 className="ms-auto">
               Pkr <span className="text-danger">{totalDeposit}</span>
-            </h1>
+            </h3>
           </div>
         </div>
         <section className="content">
@@ -133,18 +164,23 @@ const DepositSheet = () => {
 
                   <div className="card-body table-responsive">
                     <div className="row">
-                      <select onChange={(e) => setStatus(e.target.value)} className="form-select col-lg-3 mb-2" style={{ borderRadius: "10em" }} aria-label="Default select example">
-                        <option>Status</option>
-                        <option value={'approved'}>Approved</option>
-                        <option value={'unapproved'}>unapproved</option>
+                      <select
+                        onChange={(e) => setStatus(e.target.value)}
+                        className="form-select col-lg-3 mb-2"
+                        style={{ borderRadius: "10em" }}
+                        aria-label="Default select example"
+                      >
+                        <option value={""}>Status</option>
+                        <option value={"approved"}>Approved</option>
+                        <option value={"unapproved"}>unapproved</option>
                       </select>
 
                       <input
                         className="form-control col-lg-3 mb-2"
                         type="number"
-                        placeholder="Search with order ID"
+                        placeholder="Search with User ID"
                         onChange={(e) => {
-                          setOrderID(e.target.value);
+                          setUserID(e.target.value);
                         }}
                         aria-label="Search"
                         style={{ borderRadius: "10em" }}
@@ -154,7 +190,7 @@ const DepositSheet = () => {
                         className="form-control col-lg-3 mb-2"
                         type="text"
                         placeholder="Search with Name"
-                        onChange={(e) => setPhoneNo(e.target.value)}
+                        onChange={(e) => setUserName(e.target.value)}
                         aria-label="Search"
                         style={{ borderRadius: "10em" }}
                       />
@@ -163,52 +199,47 @@ const DepositSheet = () => {
                         className="form-control col-lg-3 mb-2"
                         type="text"
                         placeholder="Enter date in YYYY-MM-DD"
-                        onChange={(e) => setOrderdate(e.target.value)}
+                        onChange={(e) => setDepositDate(e.target.value)}
                         aria-label="Search"
                         style={{ borderRadius: "10em" }}
                       />
                     </div>
                     <table
                       id="example2"
-                      className="table  table-bordered table-hover  "
+                      className="table mt-3  table-bordered table-hover  "
                     >
-
-
-                      {
-
-                        loader === true ?
-                          <>
-                            <div className=''>
-                              <div className="loader">
-                                <div className="spinner-border" style={{ height: "5rem", width: "5rem" }} role="status">
-                                  <span className="sr-only">Loading...</span>
-                                </div>
+                      {loader === true ? (
+                        <>
+                          <div className="">
+                            <div className="loader">
+                              <div
+                                className="spinner-border"
+                                style={{ height: "5rem", width: "5rem" }}
+                                role="status"
+                              >
+                                <span className="sr-only">Loading...</span>
                               </div>
                             </div>
-                          </>
-                          :
-                          <>
-                            <thead className="table-success mt-2">
-                              <tr>
-                                <th>User ID</th>
-                                <th>Name</th>
-                                <th>Amount</th>
-                                <th>Account No</th>
-                                <th>Account Type</th>
-                                <th>Account Subtype</th>
-                                <th>Image</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {
-                                loadingSection()
-                              }
-                            </tbody>
-                          </>
-                      }
-
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <thead className="table-success">
+                            <tr>
+                              <th>User ID</th>
+                              <th>Name</th>
+                              <th>Amount</th>
+                              <th>Account No</th>
+                              <th>Account Type</th>
+                              <th>Account Subtype</th>
+                              <th>Image</th>
+                              <th>Status</th>
+                              <th>Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>{loadingSection()}</tbody>
+                        </>
+                      )}
                     </table>
                   </div>
                 </div>
