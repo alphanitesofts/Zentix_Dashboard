@@ -5,14 +5,13 @@ import baseUrlImage from "../Sourcefiles/BaseUrlImages";
 
 const WithdrawSheet = () => {
   const [userData, setUserData] = useState([])
-const [totalWithdrawal, setTotalWithdrawal] = useState('')
+  const [totalWithdrawal, setTotalWithdrawal] = useState('')
   const [loader, setLoader] = useState(false)
 
-  const [status, setStatus] = useState("")
-  const [orderID, setOrderID] = useState("");
-  const [orderDate, setOrderdate] = useState("");
-  const [phoneNo, setPhoneNo] = useState("");
-
+  const [status, setStatus] = useState("");
+  const [amount, setUserAmount] = useState("");
+  const [depositDate, setDepositDate] = useState("");
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     SetLocalLogin()
@@ -25,25 +24,50 @@ const [totalWithdrawal, setTotalWithdrawal] = useState('')
       let parsed_user = JSON.parse(user);
       if (parsed_user) {
         getData(parsed_user.id);
+
+
       }
     } catch {
       return null;
     }
   };
 
-  const filteredData = orderID && !phoneNo && !orderDate ?
-    userData.filter((objects) => objects.payer_id === (orderID)) :
-    phoneNo && !orderID && !orderDate ?
-      userData.filter((objects) => objects.account_title === phoneNo) :
-      orderDate && !orderID && !phoneNo ?
-        userData.filter((objects) => objects.ldate === orderDate) :
-        orderID && phoneNo && !orderDate ?
-          userData.filter((objects) => objects.payer_id === (orderID) && objects.account_title == phoneNo) :
-          phoneNo && orderDate && !orderID ?
-            userData.filter((objects) => objects.account_title === phoneNo && objects.ldate == orderDate) :
-            orderID && phoneNo && orderDate ?
-              userData.filter((objects) => objects.payer_id === (orderID) && objects.account_title === phoneNo && objects.ldate === orderDate) :
-              userData
+  const filteredData =
+    status && !amount && !userName && !depositDate
+      ? userData.filter((objects) => objects.status === status)
+      : amount && !status && !userName && !depositDate
+        ? userData.filter((objects) => objects.requested_amount === amount)
+        : userName && !status && !amount && !depositDate
+          ? userData.filter((objects) => objects.account_title === userName)
+          : depositDate && !status && !userName && !amount
+            ? userData.filter((objects) => objects.Idate === depositDate)
+            : status && amount && !userName && !depositDate
+              ? userData.filter((objects) => objects.status === status && objects.requested_amount == amount)
+              : status && !amount && userName && !depositDate
+                ? userData.filter((objects) => objects.status === status && objects.account_title == amount)
+                : status && !amount && !userName && depositDate
+                  ? userData.filter((objects) => objects.status === status && objects.Idate == amount)
+                  //  sequence 2
+                  : !status && amount && userName && !depositDate
+                    ? userData.filter((objects) => objects.requested_amount === amount && objects.account_title == userName)
+                    : !status && amount && !userName && depositDate
+                      ? userData.filter((objects) => objects.requested_amount === amount && objects.Idate == depositDate)
+                      //  sequence 3
+                      : !status && !amount && userName && depositDate
+                        ? userData.filter((objects) => objects.account_title === userName && objects.Idate == depositDate)
+                        //  sequence 4
+                        : status && !amount && !userName && depositDate
+                          ? userData.filter((objects) => objects.status === status && objects.Idate == depositDate)
+                          : !status && !amount && userName && depositDate
+                            ? userData.filter((objects) => objects.account_title === amount && objects.Idate == depositDate)
+                            //  sequence 5
+                            : status && amount && userName && !depositDate
+                              ? userData.filter((objects) => objects.status === status && objects.requested_amount == amount && objects.account_title == userName)
+                              : status && amount && !userName && depositDate
+                                ? userData.filter((objects) => objects.status === status && objects.requested_amount == amount && objects.Idate == depositDate)
+                                : status && !amount && userName && depositDate
+                                  ? userData.filter((objects) => objects.status === status && objects.account_title == userName && objects.Idate == depositDate)
+                                  : userData
 
 
   const getData = (id) => {
@@ -132,32 +156,43 @@ const [totalWithdrawal, setTotalWithdrawal] = useState('')
                   </div>
 
                   <div className="card-body table-responsive">
-                    <div className="form-group d-flex">
+                    <div className="row">
+                      <select
+                        onChange={(e) => setStatus(e.target.value)}
+                        className="form-select col-lg-3 mb-2"
+                        style={{ borderRadius: "10em" }}
+                        aria-label="Default select example"
+                      >
+                        <option value={""}>All</option>
+                        <option value={"approved"}>Approved</option>
+                        <option value={"rejected"}>unapproved</option>
+                      </select>
+
                       <input
-                        className="form-control"
+                        className="form-control col-lg-3 mb-2"
                         type="number"
-                        placeholder="Search with order ID"
+                        placeholder="Search with Amount"
                         onChange={(e) => {
-                          setOrderID(e.target.value);
+                          setUserAmount(e.target.value);
                         }}
                         aria-label="Search"
                         style={{ borderRadius: "10em" }}
                       />
-                      &nbsp;&nbsp;&nbsp;
+
                       <input
-                        className="form-control"
+                        className="form-control col-lg-3 mb-2"
                         type="text"
-                        placeholder="Search with Phone"
-                        onChange={(e) => setPhoneNo(e.target.value)}
+                        placeholder="Search with Name"
+                        onChange={(e) => setUserName(e.target.value)}
                         aria-label="Search"
                         style={{ borderRadius: "10em" }}
                       />
-                      &nbsp;&nbsp;&nbsp;
+
                       <input
-                        className="form-control"
+                        className="form-control col-lg-3 mb-2"
                         type="text"
                         placeholder="Enter date in YYYY-MM-DD"
-                        onChange={(e) => setOrderdate(e.target.value)}
+                        onChange={(e) => setDepositDate(e.target.value)}
                         aria-label="Search"
                         style={{ borderRadius: "10em" }}
                       />
@@ -182,7 +217,7 @@ const [totalWithdrawal, setTotalWithdrawal] = useState('')
                           <>
                             <thead className="table-success mt-2">
                               <tr>
-                                <th>User ID</th>
+                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Amount</th>
                                 <th>Account No</th>

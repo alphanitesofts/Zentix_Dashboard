@@ -23,7 +23,7 @@ const DepositNow = () => {
           <div className="row ">
             <div className="col-lg-4">
               <div className="containerx">
-                <div className="cardx mt-2 mb-2 bg-oval2">
+                <div className="cardx mt-2 mb-2 bg-oval4">
                   <Link className="text-dark" state={{ accType: "Bank", accSubType: "Askari_Bank" }} to="/DepositForm" >
                     <div className="imgBx">
                       <img src={askari} style={{ borderRadius: '10px', height: '150px' }} alt="nike-air-shoe" />

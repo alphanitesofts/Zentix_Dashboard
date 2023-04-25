@@ -8,8 +8,6 @@ import baseUrlImages from '../Sourcefiles/BaseUrlImages'
 const HomePage = () => {
   const [roleID, setRoleID] = useState("");
   const [isInvested, setIsInvested] = useState("0");
-
-  const [packageStatus, setPackageStatus] = useState([]);
   const [packageDetails, setPackageDetails] = useState([]);
 
   const [loader, setLoader] = useState(false)
@@ -46,6 +44,7 @@ const HomePage = () => {
       .catch((error) => console.log("error", error));
   };
 
+
   const getPackage = (id) => {
     setLoader(true)
     const userObj = {
@@ -55,10 +54,14 @@ const HomePage = () => {
     axios
       .post(`${baseUrl}fetchInvestment`, userObj)
       .then((res) => {
-        setLoader(false)
-        console.log(res.data);
-        setPackageStatus(res.data.status);
-        setPackageDetails(res.data.data[0])
+        if (res.data.status === "401") {
+          console.log(res.data);
+        }
+        else if (res.data.status === "200") {
+          setLoader(false)
+          console.log(res.data);
+          setPackageDetails(res.data.data[0])
+        }
 
       })
       .catch((err) => {
@@ -73,9 +76,9 @@ const HomePage = () => {
           <b>Dashboard</b>
         </h2>
 
-        <div className="row container">
+        <div className="row container mx-auto">
           <div className="col-lg-4">
-            <div className="card border border-info ms-2 me-1 text-center card-styles">
+            <div className="card border border-info ms-1 me-1 text-center card-styles">
               <img
                 src="dist/img/avatar.jpg"
                 className="mx-auto card-img-top img-fluid mt-2 rounded-circle"
@@ -275,12 +278,11 @@ const HomePage = () => {
           <div className="card-body">
             <p>Dear Users,</p>
             <p>
-              On the Occasion of Holy Month Ramadan Ul Mubarak the office timing
-              will be 10am to 4PM (Mon- Sat) 6 day in a week.
+              After Depositing amount in our Account, Kindly wait for two working days. Your deposited amount will be added to your account.
             </p>
             <br />
             <p>Sincerely,</p>
-            <p>The Zantix Team.</p>
+            <p>The Zentix Team.</p>
           </div>
         </div>
 
@@ -297,76 +299,75 @@ const HomePage = () => {
               </div>
             </>
             :
-            packageStatus === "200" ?
+            packageDetails ?
               <>
-                <div className="">
-                  <div className="row d-flex justify-content-center align-items-center">
-                    <div className="col-lg-12">
-                      <div
-                        className="card border card-styles border-info m-3 card-stepper"
-                        style={{ borderRadius: "5px" }}
-                      >
-                        <div className="card-header p-4">
-                          <div className="d-flex justify-content-between align-items-center">
-                            <div>
-                              <p className="text-muted mb-2">
-                                Order ID:
-                                <span className="fw-bold text-body ms-2">
-                                  {packageDetails.package_id}
-                                </span>
-                              </p>
-                              <p className="text-muted mb-0">
-                                Purchasing Date
-                                <span className="fw-bold text-body ms-2">
-                                  {packageDetails.created_at}
-                                </span>
-                              </p>
-                            </div>
-                            <div>
-                              <h6 className="mb-0"></h6>
-                            </div>
+                <div className="row d-flex justify-content-center align-items-center">
+                  <div className="col-lg-12">
+                    <div
+                      className="card border card-styles border-info card-stepper"
+                      style={{ borderRadius: "5px" }}
+                    >
+                      <div className="card-header p-4">
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div>
+                            <p className="text-muted mb-2">
+                              Order ID:
+                              <span className="fw-bold text-body ms-2">
+                                {packageDetails.package_id}
+                              </span>
+                            </p>
+                            <p className="text-muted mb-0">
+                              Purchasing Date
+                              <span className="fw-bold text-body ms-2">
+                                {packageDetails.created_at}
+                              </span>
+                            </p>
+                          </div>
+                          <div>
+                            <h6 className="mb-0"></h6>
                           </div>
                         </div>
-                        <div className="card-body p-4">
-                          <div className="d-flex flex-row mb-4 pb-2">
-                            <div className="flex-fill">
-                              <h2 style={{ color: '#17a2b8' }}>Your Package:</h2>
-                              <h5 className="bold">{packageDetails.title}</h5>
-                              <h4 className="mb-3">
-                                {packageDetails.applied_price} pkr
-                                <span className="small text-muted">
-                                  &nbsp; via (Zentix Web)
-                                </span>
-                              </h4>
-                              <h5 className="bold">Details:</h5>
-                              <span className="text-body">
-                                &#9679; {packageDetails.description}
+                      </div>
+                      <div className="card-body p-4">
+                        <div className="d-flex flex-row mb-4 pb-2">
+                          <div className="flex-fill">
+                            <h2 style={{ color: '#17a2b8' }}>Your Package:</h2>
+                            <h5 className="bold">{packageDetails.title}</h5>
+                            <h4 className="mb-3">
+                              {packageDetails.applied_price} pkr
+                              <span className="small text-muted">
+                                &nbsp; via (Zentix Web)
                               </span>
-                            </div>
-                            {/* <div>
+                            </h4>
+                            <h5 className="bold">Details:</h5>
+                            <span className="text-body">
+                              &#9679; {packageDetails.description}
+                            </span>
+                          </div>
+                          {/* <div>
                               <img
                                 className="align-self-center img-fluid"
                                 src={!packageDetails.image ? `${baseUrlImages}${packageDetails.image}` : productImage}
                                 width={250}
                               />
                             </div> */}
-                          </div>
+                        </div>
 
-                        </div>
-                        <div className="card-footer p-4">
-                          <Link
-                            to="/OrderProduct" state={{ productID: packageDetails.package_id }}
-                            className="btn btn-outline-info w-25 float-right"
-                          >
-                            Order Now
-                          </Link>
-                        </div>
+                      </div>
+                      <div className="card-footer p-4">
+                        <Link
+                          to="/OrderProduct" state={{ productID: packageDetails.package_id }}
+                          className="btn btn-outline-info w-25 float-right"
+                        >
+                          Order Now
+                        </Link>
                       </div>
                     </div>
                   </div>
                 </div>
               </>
               :
+
               <>
                 <div className="row d-flex justify-content-center align-items-center">
                   <div className="col-lg-12">
@@ -396,6 +397,7 @@ const HomePage = () => {
                   </div>
                 </div>
               </>
+
         }
 
       </div>

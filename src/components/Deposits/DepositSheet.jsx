@@ -10,7 +10,7 @@ const DepositSheet = () => {
   const [loader, setLoader] = useState(false);
 
   const [status, setStatus] = useState("");
-  const [userID, setUserID] = useState("");
+  const [amount, setUserAmount] = useState("");
   const [depositDate, setDepositDate] = useState("");
   const [userName, setUserName] = useState("");
 
@@ -51,39 +51,39 @@ const DepositSheet = () => {
   };
 
   const filteredData =
-    status && !userID && !userName && !depositDate
+    status && !amount && !userName && !depositDate
       ? userData.filter((objects) => objects.status === status)
-      : userID && !status && !userName && !depositDate
-        ? userData.filter((objects) => objects.id === userID)
-        : userName && !status && !userID && !depositDate
+      : amount && !status && !userName && !depositDate
+        ? userData.filter((objects) => objects.amount === amount)
+        : userName && !status && !amount && !depositDate
           ? userData.filter((objects) => objects.account_title === userName)
-          : depositDate && !status && !userName && !userID
+          : depositDate && !status && !userName && !amount
             ? userData.filter((objects) => objects.Idate === depositDate)
-            : status && userID && !userName && !depositDate
-              ? userData.filter((objects) => objects.status === status && objects.id == userID)
-              : status && !userID && userName && !depositDate
-                ? userData.filter((objects) => objects.status === status && objects.account_title == userID)
-                : status && !userID && !userName && depositDate
-                  ? userData.filter((objects) => objects.status === status && objects.Idate == userID)
+            : status && amount && !userName && !depositDate
+              ? userData.filter((objects) => objects.status === status && objects.amount == amount)
+              : status && !amount && userName && !depositDate
+                ? userData.filter((objects) => objects.status === status && objects.account_title == amount)
+                : status && !amount && !userName && depositDate
+                  ? userData.filter((objects) => objects.status === status && objects.Idate == amount)
                   //  sequence 2
-                  : !status && userID && userName && !depositDate
-                    ? userData.filter((objects) => objects.id === userID && objects.account_title == userName)
-                    : !status && userID && !userName && depositDate
-                      ? userData.filter((objects) => objects.id === userID && objects.Idate == depositDate)
+                  : !status && amount && userName && !depositDate
+                    ? userData.filter((objects) => objects.amount === amount && objects.account_title == userName)
+                    : !status && amount && !userName && depositDate
+                      ? userData.filter((objects) => objects.amount === amount && objects.Idate == depositDate)
                       //  sequence 3
-                      : !status && !userID && userName && depositDate
+                      : !status && !amount && userName && depositDate
                         ? userData.filter((objects) => objects.account_title === userName && objects.Idate == depositDate)
                         //  sequence 4
-                        : status && !userID && !userName && depositDate
+                        : status && !amount && !userName && depositDate
                           ? userData.filter((objects) => objects.status === status && objects.Idate == depositDate)
-                          : !status && !userID && userName && depositDate
-                            ? userData.filter((objects) => objects.account_title === userID && objects.Idate == depositDate)
+                          : !status && !amount && userName && depositDate
+                            ? userData.filter((objects) => objects.account_title === amount && objects.Idate == depositDate)
                             //  sequence 5
-                            : status && userID && userName && !depositDate
-                              ? userData.filter((objects) => objects.status === status && objects.id == userID && objects.account_title == userName)
-                              : status && userID && !userName && depositDate
-                                ? userData.filter((objects) => objects.status === status && objects.id == userID && objects.Idate == depositDate)
-                                : status && !userID && userName && depositDate
+                            : status && amount && userName && !depositDate
+                              ? userData.filter((objects) => objects.status === status && objects.amount == amount && objects.account_title == userName)
+                              : status && amount && !userName && depositDate
+                                ? userData.filter((objects) => objects.status === status && objects.amount == amount && objects.Idate == depositDate)
+                                : status && !amount && userName && depositDate
                                   ? userData.filter((objects) => objects.status === status && objects.account_title == userName && objects.Idate == depositDate)
                                   : userData
 
@@ -170,7 +170,7 @@ const DepositSheet = () => {
                         style={{ borderRadius: "10em" }}
                         aria-label="Default select example"
                       >
-                        <option value={""}>Status</option>
+                        <option value={""}>All</option>
                         <option value={"approved"}>Approved</option>
                         <option value={"unapproved"}>unapproved</option>
                       </select>
@@ -178,9 +178,9 @@ const DepositSheet = () => {
                       <input
                         className="form-control col-lg-3 mb-2"
                         type="number"
-                        placeholder="Search with User ID"
+                        placeholder="Search with Amount"
                         onChange={(e) => {
-                          setUserID(e.target.value);
+                          setUserAmount(e.target.value);
                         }}
                         aria-label="Search"
                         style={{ borderRadius: "10em" }}
@@ -226,7 +226,7 @@ const DepositSheet = () => {
                         <>
                           <thead className="table-success">
                             <tr>
-                              <th>User ID</th>
+                              <th>ID</th>
                               <th>Name</th>
                               <th>Amount</th>
                               <th>Account No</th>

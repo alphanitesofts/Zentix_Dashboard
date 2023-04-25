@@ -1,16 +1,13 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
 import baseUrl from "../Sourcefiles/BaseUrl";
 
 const UserReferrals = () => {
   const [data, setData] = useState([])
 
-
   const [userID, setUserID] = useState("");
   const [refferalDate, setRefeeraldate] = useState("");
   const [userName, setUserName] = useState("");
-
 
   const [firstMember, setFirstMembers] = useState([])
   const [secondMember, setSecondMembers] = useState([])

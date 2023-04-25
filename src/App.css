@@ -162,11 +162,15 @@ input[type="number"] {
 }
 
 .containerx .bg-oval1:before {
-  background: #2a525d;
+  background: #00A0E8;
 }
 
 .containerx .bg-oval2:before {
-  background: #0099D0;
+  background: #601518;
+}
+
+.containerx .bg-oval4:before {
+  background: #0394D1;
 }
 
 .containerx .bg-oval3:before {

@@ -48,7 +48,8 @@ const BonusSheet = () => {
       .then(result => {
         setLoader(false)
         if (result.status === "401") {
-          toast.warn('No Data Available')
+          // toast.warn('No Data Available')
+          console.log(result.status)
         }
         else if (result.status === "200") {
           setUserData(result.bonus_list)
