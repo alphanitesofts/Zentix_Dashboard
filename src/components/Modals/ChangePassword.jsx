@@ -115,7 +115,7 @@ const ChangePassword = ({ userID, closeModal, showModal }) => {
                                         newPassword === "" && fieldStatus === true ? "red" : "#ced4da",
                                 }}
                             />
-                            
+
                         </div>
                     </div>
                     <div className="row mb-3">
@@ -136,7 +136,7 @@ const ChangePassword = ({ userID, closeModal, showModal }) => {
                                         confirmPassword === "" && fieldStatus === true ? "red" : "#ced4da",
                                 }}
                             />
-                           
+
                         </div>
                     </div>
 

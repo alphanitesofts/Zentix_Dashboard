@@ -80,7 +80,7 @@ const HomePage = () => {
           <div className="col-lg-4">
             <div className="card border border-info ms-1 me-1 text-center card-styles">
               <img
-                src="dist/img/avatar.jpg"
+                src={roleID.pro_pic ==! "" ? `${baseUrlImages}${roleID.pro_pic}` : "dist/img/avatar.jpg"}
                 className="mx-auto card-img-top img-fluid mt-2 rounded-circle"
                 alt="..."
                 style={{ height: "140px", width: "140px" }}
@@ -304,7 +304,7 @@ const HomePage = () => {
                 <div className="row d-flex justify-content-center align-items-center">
                   <div className="col-lg-12">
                     <div
-                      className="card border card-styles border-info card-stepper"
+                      className="card border card-styles m-3 border-info card-stepper"
                       style={{ borderRadius: "5px" }}
                     >
                       <div className="card-header p-4">

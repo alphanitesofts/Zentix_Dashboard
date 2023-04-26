@@ -3,6 +3,7 @@ import ChangePassword from "../Modals/ChangePassword";
 import baseUrl from "../Sourcefiles/BaseUrl";
 import { toast } from 'react-toastify';
 import BaseUrlImages from '../Sourcefiles/BaseUrlImages'
+import baseUrlImage from "../Sourcefiles/BaseUrlImages";
 
 const ViewProfile = () => {
   const [isInvested, setIsInvested] = useState("0");
@@ -56,7 +57,10 @@ const ViewProfile = () => {
     formdata.append("email", email);
     formdata.append("firstname", firstName);
     formdata.append("lastname", lastName);
-    formdata.append("pro_pic", profile, "[PROXY]");
+    // formdata.append("pro_pic", profile, "[PROXY]")
+
+
+
 
     var requestOptions = {
       method: 'POST',
@@ -114,7 +118,7 @@ const ViewProfile = () => {
             <img
               className="d-none d-md-block"
               // src="dist/img/avatar.jpg"
-              src={!roleID.pro_pic ? `${BaseUrlImages}${roleID.pro_pic}` : "dist/img/avatar.jpg"}
+              src={roleID.pro_pic == ! "" ? `${baseUrlImage}${roleID.pro_pic}` : "dist/img/avatar.jpg"}
               style={{ height: "120px", width: '120px', borderRadius: '50%', objectFit: 'cover', background: '#dfdfdf' }}
               alt=""
             />
@@ -281,7 +285,9 @@ const ViewProfile = () => {
             </div>
           </div> */}
 
-          <div className="row">
+
+          {/* !add profile image */}
+          {/* <div className="row">
             <div className="col-lg-12">
               <label for="disabledTextInput" className="form-label mt-3">
                 Profile Pic
@@ -293,7 +299,7 @@ const ViewProfile = () => {
                 id="inputGroupFile01"
               />
             </div>
-          </div>
+          </div> */}
           <button className="btn btn-outline-success mt-4 float-end" onClick={updateProfile}>
             {buttonLoader === true ? 'Loading ...' : 'Update Profile'}
           </button>

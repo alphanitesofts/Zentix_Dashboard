@@ -202,7 +202,6 @@ const WithdrawSheet = () => {
                       className="table  table-bordered table-hover  "
                     >
                       {
-
                         loader === true ?
                           <>
                             <div className=''>

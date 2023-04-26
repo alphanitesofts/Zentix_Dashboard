@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../Sourcefiles/Images/LOGOZ.jpeg";
 import baseUrl from "../Sourcefiles/BaseUrlImages";
+import baseUrlImage from "../Sourcefiles/BaseUrlImages";
 
 const Sidebar = () => {
 
@@ -57,7 +58,7 @@ const Sidebar = () => {
             <div className="user-panel mt-4 pb-3 mb-3 d-flex">
               <div className="image">
                 <img
-                  src={!roleID.pro_pic ? `${baseUrl}${roleID.pro_pic}` : "dist/img/avatar.jpg"}
+                  src={roleID.pro_pic ==! "" ? `${baseUrlImage}${roleID.pro_pic}` : "dist/img/avatar.jpg"}
                   className="img-circle elevation-0"
                   alt="User Image"
                 />
