@@ -53,8 +53,8 @@ const CoinsSheet = () => {
           console.log(result.status)
         }
         else if (result.status === "200") {
-          setUserData(result.bonus_list)
-          setShowCoins(result.my_total_bonus)
+          setShowCoins(result.my_coins)
+          setUserData(result.coins_list)
         }
         console.log(result)
       })
@@ -107,7 +107,7 @@ const CoinsSheet = () => {
   function Content({ items }) {
     return (
       <tr>
-        <td>{items.user_id}</td>
+        <td>{items.id}</td>
         <td>{items.username}</td>
         <td>{items.coins}</td>
         <td>{items.reward_by}</td>
@@ -127,7 +127,7 @@ const CoinsSheet = () => {
           <div className="card-body d-flex">
             <h4 className="mt-2">My Coins</h4>
             <h1 className="ms-auto">
-            Pkr <span className="text-danger">{showCoins}</span>
+              Pkr <span className="text-danger">{showCoins}</span>
             </h1>
           </div>
         </div>
@@ -203,7 +203,7 @@ const CoinsSheet = () => {
                                 <th>User ID</th>
                                 <th>Username</th>
                                 <th>Coins</th>
-                                <th>Referred By</th>
+                                <th>Referral User ID</th>
                                 <th>Transaction Type</th>
                                 <th>Date</th>
                               </tr>

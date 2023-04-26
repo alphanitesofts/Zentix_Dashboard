@@ -35,7 +35,6 @@ const HomePage = () => {
       method: "POST",
       redirect: "follow",
     };
-
     fetch(`${baseUrl}fetchuserwithid/${id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
@@ -80,7 +79,7 @@ const HomePage = () => {
           <div className="col-lg-4">
             <div className="card border border-info ms-1 me-1 text-center card-styles">
               <img
-                src={roleID.pro_pic ==! "" ? `${baseUrlImages}${roleID.pro_pic}` : "dist/img/avatar.jpg"}
+                src={roleID.pro_pic == ! "" ? `${baseUrlImages}${roleID.pro_pic}` : "dist/img/avatar.jpg"}
                 className="mx-auto card-img-top img-fluid mt-2 rounded-circle"
                 alt="..."
                 style={{ height: "140px", width: "140px" }}

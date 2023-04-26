@@ -53,8 +53,8 @@ const CommissionSheet = () => {
           console.log(result.status)
         }
         else if (result.status === "200") {
-          setUserData(result.bonus_list)
-          setShowCommission(result.my_total_bonus)
+          setUserData(result.commission_list)
+          setShowCommission(result.my_total_commission)
         }
         console.log(result)
       })
@@ -111,7 +111,6 @@ const CommissionSheet = () => {
         <td>{items.username}</td>
         <td>{items.commission}</td>
         <td>{items.commission_from}</td>
-        <td>{items.commission_percentage}</td>
         <td>{items.created_at}</td>
       </tr>
     )
@@ -185,7 +184,6 @@ const CommissionSheet = () => {
                     >
 
                       {
-
                         loader === true ?
                           <>
                             <div className=''>
@@ -203,8 +201,7 @@ const CommissionSheet = () => {
                                 <th>User ID</th>
                                 <th>Username</th>
                                 <th>Commission</th>
-                                <th>Referred By</th>
-                                <th>Transaction Type</th>
+                                <th>Referral User ID</th>
                                 <th>Date</th>
                               </tr>
                             </thead>

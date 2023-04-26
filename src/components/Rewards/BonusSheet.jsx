@@ -110,6 +110,7 @@ const BonusSheet = () => {
         <td>{items.username}</td>
         <td>{items.bonus}</td>
         <td>{items.username}</td>
+        <td>{items.user_id}</td>
         <td>{items.created_at}</td>
       </tr>
     )
@@ -202,6 +203,7 @@ const BonusSheet = () => {
                                 <th>Username</th>
                                 <th>Bonus</th>
                                 <th>Referred By</th>
+                                <th>Referral User ID</th>
                                 <th>Date</th>
                               </tr>
                             </thead>
