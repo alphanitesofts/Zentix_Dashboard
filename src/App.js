@@ -75,7 +75,7 @@ function App() {
               <Route path="/ImportantLinks" element={<ImportantLinks />} />
               <Route path="/UserReferrals" element={<UserReferrals />} />
               <Route path="/ViewProfile" element={<ViewProfile />} />
-              <Route path="/BuyPackages" element={<BuyPackages />} />
+              <Route path="/Buy-Packages" element={<BuyPackages />} />
               <Route path="/TotalRecords" element={<TotalRecords />} />
 
               {/* notifications */}

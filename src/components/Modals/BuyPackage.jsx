@@ -15,7 +15,6 @@ const BuyPackage = ({ userInfo, showModal, closeModal }) => {
       let parsed_user = JSON.parse(user);
       if (parsed_user) {
         setuserDataa(parsed_user);
-        // setuserDataa(parsed_user)
       }
     } catch {
       return null;
@@ -40,10 +39,15 @@ const BuyPackage = ({ userInfo, showModal, closeModal }) => {
     };
 
     fetch(`${baseUrl}AddInvestment`, requestOptions)
-      .then(response => response.json())
+      .then(response => {
+        response.json()
+        //  to remove the error SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON error
+        return response.json
+      })
       .then(result => {
         setButtonLoader(false)
         console.log(result)
+
         if (result.status === "401") {
           toast.warn(result.message)
         }
@@ -55,8 +59,6 @@ const BuyPackage = ({ userInfo, showModal, closeModal }) => {
         console.log('error', error)
         toast.warn('something went wrong ...')
       });
-
-
   }
 
 

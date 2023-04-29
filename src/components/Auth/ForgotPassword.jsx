@@ -4,7 +4,7 @@ import baseUrl from "../Sourcefiles/BaseUrl";
 import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
-  const [index, setIndex] = useState(2);
+  const [index, setIndex] = useState(0);
   const [checkPhone, setCheckPhone] = useState("");
 
   const [userAnswer, setUserAnswer] = useState("");

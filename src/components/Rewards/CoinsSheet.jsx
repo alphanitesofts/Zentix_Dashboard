@@ -150,7 +150,7 @@ const CoinsSheet = () => {
                       <input
                         className="form-control"
                         type="number"
-                        placeholder="Search with order ID"
+                        placeholder="Search with ID"
                         onChange={(e) => {
                           setuserID(e.target.value);
                         }}

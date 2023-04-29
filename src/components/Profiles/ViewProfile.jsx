@@ -74,7 +74,7 @@ const ViewProfile = () => {
         setButtonLoader(false)
         console.log(result)
         if (result.status === "200") {
-          toast.info('Profile Updated')
+          toast.info('Your Profile will be updated shortly')
           localStorage.setItem("user", JSON.stringify(result.user));
         }
         else if (result.status === "401") {

@@ -58,7 +58,7 @@ const Sidebar = () => {
             <div className="user-panel mt-4 pb-3 mb-3 d-flex">
               <div className="image">
                 <img
-                  src={roleID.pro_pic ==! "" ? `${baseUrlImage}${roleID.pro_pic}` : "dist/img/avatar.jpg"}
+                  src={roleID.pro_pic == ! "" ? `${baseUrlImage}${roleID.pro_pic}` : "dist/img/avatar.jpg"}
                   className="img-circle elevation-0"
                   alt="User Image"
                 />
@@ -114,7 +114,7 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/BuyPackages" className="nav-link text-white">
+                  <Link to="/Buy-Packages" className="nav-link text-white">
                     &nbsp;&nbsp;
                     <i className="fa-solid fa-cart-shopping" />
                     &nbsp;&nbsp;&nbsp;

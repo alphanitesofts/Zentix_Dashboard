@@ -1,13 +1,12 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import BaseUrl from "../Sourcefiles/BaseUrl";
-import BaseUrlImages from "../Sourcefiles/BaseUrlImages";
 import BuyPackage from "../Modals/BuyPackage";
 import baseUrl from "../Sourcefiles/BaseUrl";
 
 const BuyPackages = () => {
   const [data, setData] = useState([]);
-  const [userID, setUserID] = useState();
+  const [packageDetails, setPackageDetails] = useState();
   const [loader, setLoader] = useState(false);
   const [shouldShow, setShouldShow] = useState(false);
   const [isInvested, setIsInvested] = useState("1");
@@ -66,9 +65,9 @@ const BuyPackages = () => {
       <h2 className="p-3" style={{ color: "#5e5873" }}>
         <b>Packages</b>
       </h2>
-      {userID ? (
+      {packageDetails ? (
         <BuyPackage
-          userInfo={userID}
+          userInfo={packageDetails}
           showModal={shouldShow}
           closeModal={oncloseModal}
         />
@@ -79,7 +78,6 @@ const BuyPackages = () => {
           <b>Buy Package</b>
         </h5>
       </div>
-
 
       <div className="container">
         <div className="row text-center">
@@ -140,7 +138,7 @@ const BuyPackages = () => {
                               className="btn btn-primary"
                               onClick={() => {
                                 oncloseModal();
-                                setUserID(items);
+                                setPackageDetails(items);
                               }}
                             >
                               Buy Now

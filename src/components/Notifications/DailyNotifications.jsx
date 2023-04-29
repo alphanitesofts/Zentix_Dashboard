@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import baseUrl from '../Sourcefiles/BaseUrl';
 import { useEffect } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 
 const DailyNotifications = () => {
 
@@ -12,7 +10,6 @@ const DailyNotifications = () => {
     useEffect(() => {
         SetLocalLogin()
     }, [])
-
 
     async function SetLocalLogin() {
         try {
@@ -26,86 +23,81 @@ const DailyNotifications = () => {
         }
     };
 
-
     const getNotifications = (id) => {
 
-        setLoader(true)
-        const userObj = {
-            receiver_id: id
-        }
-        axios.post(`${baseUrl}fetch_notification_by_rid`, userObj)
-            .then((res) => {
-                setLoader(false)
-                if (res.data.status === "200") {
-                    setNotifications(res.data.Notification)
-                }
-                else if (res.data.status === "401") {
-                    toast.warn(res.data.message)
+        var formdata = new FormData();
+        formdata.append("receiver_id", id);
+
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        fetch(`${baseUrl}fetch_notification_by_rid`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === "200") {
+                    setNotifications(result.Notification)
                     setLoader(false)
-
                 }
-                console.log(res)
-
+                else if (result.status === "401") {
+                    setLoader(false)
+                }
+                console.log(result)
             })
-            .catch((err) => {
-                console.log(err)
-            })
+            .catch(error => {
+                console.log('error', error)
+            });
     }
-
-    const unseenNotifications = notifications.filter(
-        (notification) => notification.is_seen === "false"
-    );
 
     return (
         <div className='scroll-view-two scrollbar-secondary-two'>
             <div className='content-wrapper '>
                 <h2 className="p-3" style={{ color: "#5e5873" }}><b>Notifications</b></h2>
 
-
-                {loader === true ?
-                    <>
-                        <div>
-                            <div className="loader">
-                                <div className="spinner-border" style={{ height: "5rem", width: "5rem" }} role="status">
-                                    <span className="sr-only">Loading...</span>
+                {
+                    loader === true ?
+                        <>
+                            <div>
+                                <div className="loader">
+                                    <div className="spinner-border" style={{ height: "5rem", width: "5rem" }} role="status">
+                                        <span className="sr-only">Loading...</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </>
-                    :
-                    notifications.length >= 1 ?
-                        notifications.map((items) => {
-                            return (
-                                <>
-                                    <div className="card card-styles ms-3">
-                                        <section className="notif notif-notice">
-                                            <div className='d-flex'>
-                                                <i className='fa-solid fa-bell' />&nbsp;&nbsp;
-                                                <h6 className="notif-title">{items.title}</h6>
-                                            </div>
-                                            <p className='mt-0 mb-2'>{items.body}</p>
-                                            <p className='mt-0 mb-0'>{items.Idate}</p>
-                                        </section>
-                                    </div>
-                                </>
-                            )
-                        })
-                        :
-                        <>
-                            <div className="card card-styles ms-3">
-                                <section className="notif notif-notice">
-                                    <div className='d-flex'>
-                                        <i className='fa-solid fa-bell' />&nbsp;&nbsp;
-                                        <h6 className="notif-title">No Notifications yet!</h6>
-                                    </div>
-                                    <p className='mt-0 mb-2'>You will start recieving notifications here</p>
-                                </section>
-                            </div>
                         </>
-
+                        :
+                        notifications.length >= 1 ?
+                            notifications.map((items) => {
+                                return (
+                                    <>
+                                        <div className="card card-styles ms-3">
+                                            <section className="notif notif-notice">
+                                                <div className='d-flex'>
+                                                    <i className='fa-solid fa-bell' />&nbsp;&nbsp;
+                                                    <h6 className="notif-title">{items.title}</h6>
+                                                </div>
+                                                <p className='mt-0 mb-2'>{items.body}</p>
+                                                <p className='mt-0 mb-0'>{items.Idate}</p>
+                                            </section>
+                                        </div>
+                                    </>
+                                )
+                            })
+                            :
+                            <>
+                                <div className="card card-styles ms-3">
+                                    <section className="notif notif-notice">
+                                        <div className='d-flex'>
+                                            <i className='fa-solid fa-bell' />&nbsp;&nbsp;
+                                            <h6 className="notif-title">No Notifications yet!</h6>
+                                        </div>
+                                        <p className='mt-0 mb-2'>You will start recieving notifications here</p>
+                                    </section>
+                                </div>
+                            </>
                 }
-
-
 
             </div>
         </div>
