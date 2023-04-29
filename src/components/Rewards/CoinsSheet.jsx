@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import baseUrl from "../Sourcefiles/BaseUrl";
-import { toast } from "react-toastify";
-
 
 const CoinsSheet = () => {
 
@@ -136,6 +134,7 @@ const CoinsSheet = () => {
           <div className="container-fluid">
             <div className="row">
               <div className="col-12">
+
                 <div className="card card-styles">
                   <div className="card-header d-flex">
                     <div>
@@ -143,8 +142,6 @@ const CoinsSheet = () => {
                         <b>My Coins Sheet</b>
                       </h3>
                     </div>
-
-
                   </div>
 
                   <div className="card-body table-responsive">
@@ -185,7 +182,6 @@ const CoinsSheet = () => {
                     >
 
                       {
-
                         loader === true ?
                           <>
                             <div className=''>

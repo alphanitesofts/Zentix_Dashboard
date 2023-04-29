@@ -209,84 +209,10 @@ const ViewProfile = () => {
               </fieldset>
             </div>
           </div>
-          {/* <label for="disabledTextInput" className="form-label mt-3">
-            Address
-          </label>
-          <input
-            type="text"
-            value={roleID != "" ? roleID.firstname : ""}
-            className="form-control"
-            id="disabledTextInput"
-            aria-describedby="emailHelp"
-          />
-
-          <div className="row">
-            <div className="col-lg-3">
-              <label for="disabledTextInput" className="form-label mt-3">
-                City
-              </label>
-              <input
-                type="text"
-                value={roleID != "" ? roleID.firstname : ""}
-                className="form-control"
-                id="disabledTextInput"
-                aria-describedby="emailHelp"
-              />
-            </div>
-
-            <div className="col-lg-3">
-              <label for="disabledTextInput" className="form-label mt-3">
-                State
-              </label>
-              <input
-                type="text"
-                value={roleID != "" ? roleID.firstname : ""}
-                className="form-control"
-                id="disabledTextInput"
-                aria-describedby="emailHelp"
-              />
-            </div>
-
-            <div className="col-lg-3">
-              <label for="disabledTextInput" className="form-label mt-3">
-                ZIP/Postal
-              </label>
-              <input
-                type="text"
-                value={roleID != "" ? roleID.firstname : ""}
-                className="form-control"
-                id="disabledTextInput"
-                aria-describedby="emailHelp"
-              />
-            </div>
-
-            <div className="col-lg-3">
-              <label for="disabledTextInput" className="form-label mt-3">
-                Country
-              </label>
-              <input
-                type="text"
-                value={roleID != "" ? roleID.firstname : ""}
-                className="form-control"
-                id="disabledTextInput"
-                aria-describedby="emailHelp"
-              />
-            </div>
-            <div className="col-lg-12">
-              <label for="disabledTextInput" className="form-label mt-3">
-                Profile Pic
-              </label>
-              <input
-                onChange={(e) => setProfile(e.target.files[0])}
-                type="file"
-                className="form-control"
-                id="inputGroupFile01"
-              />
-            </div>
-          </div> */}
 
 
           {/* !add profile image */}
+
           {/* <div className="row">
             <div className="col-lg-12">
               <label for="disabledTextInput" className="form-label mt-3">
@@ -300,6 +226,7 @@ const ViewProfile = () => {
               />
             </div>
           </div> */}
+
           <button className="btn btn-outline-success mt-4 float-end" onClick={updateProfile}>
             {buttonLoader === true ? 'Loading ...' : 'Update Profile'}
           </button>

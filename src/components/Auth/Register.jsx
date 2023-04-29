@@ -116,17 +116,12 @@ const Register = () => {
         console.log(result);
         if (result.response === "200") {
           toast.success("Member Registered");
-          setInterval(() => {
-            window.location.reload(true);
-          }, 1000);
+          // setInterval(() => {
+          //   window.location.reload(true);
+          // }, 1000);
         } else if (result.status === "401") {
-          // toast.warn(result.data[0].message)
-
           toast.warn(result.message);
-
-          // console.log("consoledd",result.data[0].message)
         }
-        // useNavigate(/)
 
       })
       .catch((error) => {

@@ -215,7 +215,7 @@ const TotalRecords = () => {
                                 <div className="col-lg-4">
                                     <div className="card" style={{ backgroundColor: "#10375c  " }}>
                                         <div className="card-body text-white p-4 shadow rounded">
-                                            <h4 className="text-end">{data.my_level}</h4>
+                                            <h4 className="text-end">{data.my_rank} Achieved</h4>
                                             <p className="text-end">My Rank</p>
                                             <div className="d-flex justify-content-end">
                                                 <Link to='/ViewProfile' className="btn btn-sm btn-light me-1 shadow-lg rounded">

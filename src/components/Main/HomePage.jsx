@@ -8,7 +8,7 @@ import baseUrlImages from '../Sourcefiles/BaseUrlImages'
 const HomePage = () => {
   const [roleID, setRoleID] = useState("");
   const [isInvested, setIsInvested] = useState("0");
-  const [packageDetails, setPackageDetails] = useState([]);
+  const [packageDetails, setPackageDetails] = useState();
 
   const [loader, setLoader] = useState(false)
 
@@ -50,8 +50,7 @@ const HomePage = () => {
       investor_id: id,
     };
 
-    axios
-      .post(`${baseUrl}fetchInvestment`, userObj)
+    axios.post(`${baseUrl}fetchInvestment`, userObj)
       .then((res) => {
         if (res.data.status === "401") {
           console.log(res.data);
@@ -67,6 +66,8 @@ const HomePage = () => {
         console.log(err);
       });
   };
+
+
 
   return (
     <div className="scroll-view-two scrollbar-secondary-two">
@@ -86,7 +87,7 @@ const HomePage = () => {
               />
               <div className="card-body">
                 <h5 className="card-text">
-                  {roleID != "" ? roleID.firstname : ""}&nbsp;&nbsp;
+                  {roleID != "" ? roleID.firstname : ""}&nbsp;
                   {roleID != "" ? roleID.lastname : ""}
                 </h5>
                 <p className="card-text">Lahore, Pakistan</p>
@@ -206,9 +207,9 @@ const HomePage = () => {
                 <div className="card " style={{ backgroundColor: "#00bcd4" }}>
                   <div className="card-body text-white p-4 shadow rounded">
                     <h4 className="text-end">
-                      {roleID != "" ? roleID.level : ""}
+                      {roleID != "" ? roleID.id : ""}
                     </h4>
-                    <p className="text-end">Rank</p>
+                    <p className="text-end">My User ID</p>
                     <div className="d-flex justify-content-end">
                       <Link
                         to="/ViewProfile"
@@ -287,117 +288,107 @@ const HomePage = () => {
 
 
         {
-          loader === true ?
+          packageDetails ?
             <>
-              <div>
-                <div className="loader">
-                  <div className="spinner-border" style={{ height: "5rem", width: "5rem" }} role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                </div>
-              </div>
-            </>
-            :
-            packageDetails ?
-              <>
-                <div className="row d-flex justify-content-center align-items-center">
-                  <div className="col-lg-12">
-                    <div
-                      className="card border card-styles m-3 border-info card-stepper"
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <div className="card-header p-4">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div>
-                            <p className="text-muted mb-2">
-                              Order ID:
-                              <span className="fw-bold text-body ms-2">
-                                {packageDetails.package_id}
-                              </span>
-                            </p>
-                            <p className="text-muted mb-0">
-                              Purchasing Date
-                              <span className="fw-bold text-body ms-2">
-                                {packageDetails.created_at}
-                              </span>
-                            </p>
-                          </div>
-                          <div>
-                            <h6 className="mb-0"></h6>
-                          </div>
+              <div className="row d-flex justify-content-center align-items-center">
+                <div className="col-lg-12">
+                  <div
+                    className="card border card-styles m-3 border-info card-stepper"
+                    style={{ borderRadius: "5px" }}
+                  >
+                    <div className="card-header p-4">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                          <p className="text-muted mb-2">
+                            Order ID:
+                            <span className="fw-bold text-body ms-2">
+                              {packageDetails.package_id}
+                            </span>
+                          </p>
+                          <p className="text-muted mb-0">
+                            Purchasing Date
+                            <span className="fw-bold text-body ms-2">
+                              {packageDetails.created_at}
+                            </span>
+                          </p>
+                        </div>
+                        <div>
+                          <h6 className="mb-0"></h6>
                         </div>
                       </div>
-                      <div className="card-body p-4">
-                        <div className="d-flex flex-row mb-4 pb-2">
-                          <div className="flex-fill">
-                            <h2 style={{ color: '#17a2b8' }}>Your Package:</h2>
-                            <h5 className="bold">{packageDetails.title}</h5>
-                            <h4 className="mb-3">
-                              {packageDetails.applied_price} pkr
-                              <span className="small text-muted">
-                                &nbsp; via (Zentix Web)
-                              </span>
-                            </h4>
-                            <h5 className="bold">Details:</h5>
-                            <span className="text-body">
-                              &#9679; {packageDetails.description}
+                    </div>
+                    <div className="card-body p-4">
+                      <div className="d-flex flex-row mb-4 pb-2">
+                        <div className="flex-fill">
+                          <h2 style={{ color: '#17a2b8' }}>Your Package:</h2>
+                          <h5 className="bold">{packageDetails.title}</h5>
+                          <h4 className="mb-3">
+                            {packageDetails.applied_price} pkr
+                            <span className="small text-muted">
+                              &nbsp; via (Zentix Web)
                             </span>
-                          </div>
-                          {/* <div>
+                          </h4>
+                          <h5 className="bold">Details:</h5>
+                          <span className="text-body">
+                            &#9679; {packageDetails.description}
+                          </span>
+                        </div>
+                        {/* <div>
                               <img
                                 className="align-self-center img-fluid"
                                 src={!packageDetails.image ? `${baseUrlImages}${packageDetails.image}` : productImage}
                                 width={250}
                               />
                             </div> */}
-                        </div>
+                      </div>
 
-                      </div>
-                      <div className="card-footer p-4">
-                        <Link
-                          to="/OrderProduct" state={{ productID: packageDetails.package_id }}
-                          className="btn btn-outline-info w-25 float-right"
-                        >
-                          Order Now
-                        </Link>
-                      </div>
+                    </div>
+                    <div className="card-footer p-4">
+                      <Link
+                        to="/OrderProduct" state={{ productID: packageDetails.package_id }}
+                        className="btn btn-outline-info w-25 float-right"
+                      >
+                        Order Now
+                      </Link>
                     </div>
                   </div>
                 </div>
-              </>
-              :
+              </div>
+            </>
+            :
 
-              <>
-                <div className="row d-flex justify-content-center align-items-center">
-                  <div className="col-lg-12">
-                    <div
-                      className="card border card-styles border-info m-3 card-stepper"
-                      style={{ borderRadius: "5px" }}
-                    >
-                      <div className="card-header p-4">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div>
-                            <p className="text-muted mb-2">
-                              <span className="fw-bold text-body ms-2">
-                                Your Package Details show here:
-                              </span>
-                            </p>
-                          </div>
-                          <div>
-                            <h6 className="mb-0"></h6>
-                          </div>
+            <>
+              <div className="row d-flex justify-content-center align-items-center">
+                <div className="col-lg-12">
+                  <div
+                    className="card border card-styles border-info m-3 card-stepper"
+                    style={{ borderRadius: "5px" }}
+                  >
+                    <div className="card-header p-4">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                          <p className="text-muted mb-2">
+                            <span className="fw-bold text-body ms-2">
+                              Your Package Details show here:
+                            </span>
+                          </p>
+                        </div>
+                        <div>
+                          <h6 className="mb-0"></h6>
                         </div>
                       </div>
-                      <div className="card-body p-4">
-                        <h4>You Currently have no package bought!</h4>
-                      </div>
-                      <div className="card-footer p-4"></div>
                     </div>
+                    <div className="card-body p-4">
+                      <h4>You Currently have no package bought!</h4>
+                    </div>
+                    <div className="card-footer p-4"></div>
                   </div>
                 </div>
-              </>
+              </div>
+            </>
 
         }
+
 
       </div>
     </div>

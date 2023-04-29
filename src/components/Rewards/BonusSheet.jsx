@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import baseUrl from "../Sourcefiles/BaseUrl";
-import { toast } from "react-toastify";
 
 const BonusSheet = () => {
 
@@ -36,7 +35,6 @@ const BonusSheet = () => {
     setLoader(true)
     var formdata = new FormData();
     formdata.append("user_id", id);
-
     var requestOptions = {
       method: 'POST',
       body: formdata,
@@ -135,6 +133,7 @@ const BonusSheet = () => {
           <div className="container-fluid">
             <div className="row">
               <div className="col-12">
+
                 <div className="card card-styles">
                   <div className="card-header d-flex">
                     <div>
@@ -142,8 +141,6 @@ const BonusSheet = () => {
                         <b>My Bonus Sheet</b>
                       </h3>
                     </div>
-
-
                   </div>
 
                   <div className="card-body table-responsive">
@@ -184,7 +181,6 @@ const BonusSheet = () => {
                     >
 
                       {
-
                         loader === true ?
                           <>
                             <div className=''>
