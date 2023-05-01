@@ -8,7 +8,6 @@ const BuyPackage = ({ userInfo, showModal, closeModal }) => {
   const [userDataa, setuserDataa] = useState("");
   const [buttonLoader, setButtonLoader] = useState(false)
 
-
   async function SetLocalLogin() {
     try {
       let user = await localStorage.getItem("user");

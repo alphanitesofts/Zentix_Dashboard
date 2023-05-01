@@ -64,10 +64,10 @@ const UserReferrals = () => {
         {
           filterSearch === "0"
             ? firstFilteredData.map((items) => {
-              return <Content items={items} />;
+              return <Content items={items} />
             })
             : secondFilterData.map((items) => {
-              return <Content items={items} />;
+              return <Content items={items} />
             })
         }
       </>
@@ -144,7 +144,6 @@ const UserReferrals = () => {
     <div className="scroll-view-two scrollbar-secondary-two">
       <div className="content-wrapper">
         <h2 className="p-3">Referrals</h2>
-
         <section className="content">
           <div className="container-fluid">
             <div className="row">
@@ -241,29 +240,6 @@ const UserReferrals = () => {
                           </thead>
                           <tbody>{loadingSection()}</tbody>
                         </table>
-
-                        {/* <h4 className="mt-5 mb-0">Second Referrals</h4>
-                          <table
-                            id="example2"
-                            className="table mt-2 table-bordered table-hover  "
-                          >
-                            <thead className="table-success">
-                              <tr>
-                                <th>User ID</th>
-                                <th>firstname</th>
-                                <th>username</th>
-                                <th>email</th>
-                                <th>cnic</th>
-                                <th>Phone No.</th>
-                                <th>Date</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {
-                                loadingSection()
-                              }
-                            </tbody>
-                          </table> */}
                       </>
                     )}
                   </div>
